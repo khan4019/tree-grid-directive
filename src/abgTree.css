@@ -1,0 +1,121 @@
+/* 
+   abn-tree.css
+
+   style for the angular-bootstrap-nav-tree
+   for both Bootstrap 2 and Bootstrap 3
+
+*/
+
+
+
+/* ------------------------------------------
+AngularJS Animations...
+
+The first selector is for Angular 1.1.5
+The second selector is for Angular 1.2.0
+
+*/
+.abg-tree-animate-enter,
+.abg-tree-row.ng-enter {
+  transition: 200ms linear all;
+  position: relative;
+  display: block;
+  opacity: 0;
+  max-height:0px;
+}
+.abg-tree-animate-enter.abg-tree-animate-enter-active,
+.abg-tree-row.ng-enter-active{
+  opacity: 1;
+  max-height:30px;
+}
+
+.abg-tree-animate-leave,
+.abg-tree-row.ng-leave {
+  transition: 200ms linear all;
+  position: relative;
+  display: block;
+  height:30px;
+  max-height: 30px;
+  opacity: 1;
+}
+.abg-tree-animate-leave.abg-tree-animate-leave-active,
+.abg-tree-row.ng-leave-active {  
+  height: 0px;
+  max-height:0px;
+  opacity: 0;
+}
+
+
+/* 
+------------------------------------------
+Angular 1.2.0 Animation 
+*/
+
+
+.abg-tree-animate.ng-enter{
+
+}
+.abg-tree-animate.ng-enter{
+
+}
+
+
+
+
+/*
+   end animation stuff
+-----------------------------------------
+   begin normal css stuff
+*/
+.abg-tree .abg-tree-row {  
+  padding: 0px;
+  margin:0px;
+}
+
+.abg-tree .abg-tree-row a {
+  padding: 3px 10px;
+}
+
+.abg-tree i.indented {
+  padding: 2px;
+}
+
+.abg-tree {
+  cursor: pointer;
+}
+.nav.abg-tree .level-1 .indented {
+  position: relative;
+  left: 0px;
+}
+.nav.abg-tree .level-2 .indented {
+  position: relative;
+  left: 20px;
+}
+.nav.abg-tree .level-3 .indented {
+  position: relative;
+  left: 40px;
+}
+.nav.abg-tree .level-4 .indented {
+  position: relative;
+  left: 60px;
+}
+.nav.abg-tree .level-5 .indented {
+  position: relative;
+  left: 80px;
+}
+.nav.abg-tree .level-6 .indented {
+  position: relative;
+  left: 100px;
+}
+.nav.nav-list.abg-tree .level-7 .indented {
+  position: relative;
+  left: 120px;
+}
+.nav.nav-list.abg-tree .level-8 .indented {
+  position: relative;
+  left: 140px;
+}
+.nav.nav-list.abg-tree .level-9 .indented {
+  position: relative;
+  left: 160px;
+}
