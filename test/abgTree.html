@@ -1,17 +1,41 @@
 <!DOCTYPE html>
 <html ng-app="abgTest">
   <head>
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../js/bootstrap.min.css">
     <link rel="stylesheet" href="../src/abgTree.css">    
   </head>
   <body ng-controller="abgTestController" style="margin:20px">
     <h1 class="text-center">angular-bootstrap-grid-tree</h1>
 
-    <button ng-click="my_tree.expand_all()" class="btn btn-default btn-sm">Expand All</button>
-    <button ng-click="my_tree.collapse_all()" class="btn btn-default btn-sm">Collapse All</button>
-    <abg-tree tree-data="my_data" tree-control="my_tree" col-Defs="col_defs" expand-On="expanding_property" on-select="my_tree_handler(branch)" expand-level="2" icon-leaf= "glyphicon glyphicon-globe"></abg-tree>    
-    <script src="../js/angular/angular.js"></script>
-    <script src="../js/angular/angular-animate.js"></script>
+    <div ng-model="minimumAbg" ng-value="false">
+        
+        <button ng-click="minimumAbg=false" class="btn btn-primary btn-sm">Use standard directive</button>
+        <button ng-click="minimumAbg=true" class="btn btn-primary btn-sm">Use minimum directive</button>
+        <br/><br/>
+        <div ng-show="!minimumAbg">
+            <strong>standard directive: </strong><code>&lt;abg-tree tree-data="my_data" tree-control="my_tree" col-defs="col_defs" expand-on="expanding_property" on-select="my_tree_handler(branch)" expand-level="2" icon-leaf= "glyphicon glyphicon-globe"&gt;&lt;/abg-tree&gt;</code>
+            <br/>
+            <br/>
+            <button ng-click="my_tree.expand_all()" class="btn btn-default btn-sm">Expand All</button>
+            <button ng-click="my_tree.collapse_all()" class="btn btn-default btn-sm">Collapse All</button>
+            
+            <abg-tree tree-data="my_data" tree-control="my_tree" col-defs="col_defs" expand-on="expanding_property" on-select="my_tree_handler(branch)" expand-level="2" icon-leaf= "glyphicon glyphicon-globe"></abg-tree>
+        </div>
+        <div ng-show="minimumAbg">
+            <strong>bare minimum directive:</strong> <code>&lt;abg-tree tree-data="my_data"&gt;&lt;/abg-tree&gt;</code>
+            <br/>
+            <br/>
+            <abg-tree tree-data="my_data"></abg-tree>
+        </div>
+    </div>
+    <!-- for local development -->
+    <!--
+        <script src="../js/angular/angular.js"></script>
+        <script src="../js/angular/angular-animate.js"></script>
+    -->
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular-animate.js"></script>
+    
     <script src="../src/abg-tree-directive.js"></script>    
     <script src="abgTreeTest.js"></script>
     <script>

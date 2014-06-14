@@ -49,20 +49,10 @@
               return;
             }
           }
-          if(!attrs.colDefs){
-            var _col_defs = [], _firstRow = scope.treeData[0];
-            for(var idx in _firstRow){
-              if(idx !='children')
-                _col_defs.push({field:idx});
-            }            
-            scope.colDefinitions = _col_defs;
-          }
-          else{
-            scope.colDefinitions = attrs.colDefs;
-          }
           if(attrs.expandOn){
-            expandingProperty = attrs.expandOn;
-            scope.expandingProperty = attrs.expandOn;
+            console.log(scope.expandOn);
+            expandingProperty = scope.expandOn;
+            scope.expandingProperty = scope.expandOn;
           }
           else{
             var _firstRow = scope.treeData[0], 
@@ -75,6 +65,17 @@
             }
             if(!expandingProperty) expandingProperty = _keys[0];
             scope.expandingProperty = expandingProperty;
+          }
+          if(!attrs.colDefs){
+            var _col_defs = [], _firstRow = scope.treeData[0];
+            for(var idx in _firstRow){
+              if(idx !='children' && idx != expandingProperty)
+                _col_defs.push({field:idx});
+            }            
+            scope.colDefinitions = _col_defs;
+          }
+          else{
+            scope.colDefinitions = scope.colDefs;
           }
           for_each_branch = function(f) {
             var do_f, root_branch, _i, _len, _ref, _results;
