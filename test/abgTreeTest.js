@@ -29,7 +29,7 @@
 
     
     var myTreeData = getTree(rawTreeData, 'DemographicId', 'ParentId');
-    console.log(myTreeData);
+
     $scope.my_data = myTreeData;    
     $scope.my_tree = tree = {};
     $scope.expanding_property = "Name";
