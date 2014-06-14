@@ -7,7 +7,7 @@
     '$timeout', function($timeout) {
       return {
         restrict: 'E',
-        template:"<div><table class=\"table table-bordered table-striped nav abg-tree\"><thead class=\"text-primary\"><tr><th>{{expandOn}}</th><th ng-repeat=\"col in colDefs\">{{col.displayName || col.field}}</th></tr></thead><tbody><tr ng-repeat=\"row in tree_rows | filter:{visible:true} track by row.branch.uid\" ng-animate=\"'abn-tree-animate'\" ng-class=\"'level-' + {{ row.level }} + (row.branch.selected ? ' active':'')\" class=\"abg-tree-row\"><td class=\"text-primary\"><a ng-click=\"user_clicks_branch(row.branch)\"><i ng-class=\"row.tree_icon\" ng-click=\"row.branch.expanded = !row.branch.expanded\" class=\"indented tree-icon\"></i></a><span class=\"indented tree-label\">{{row.branch[expandOn]}}</span></td><td ng-repeat=\"col in colDefs\">{{row.branch[col.field]}}</td></tr></tbody><table></div>",
+        template:"<div><table class=\"table table-bordered table-striped nav abg-tree\"><thead class=\"text-primary\"><tr><th>{{expandingProperty}}</th><th ng-repeat=\"col in colDefinitions\">{{col.displayName || col.field}}</th></tr></thead><tbody><tr ng-repeat=\"row in tree_rows | filter:{visible:true} track by row.branch.uid\" ng-animate=\"'abn-tree-animate'\" ng-class=\"'level-' + {{ row.level }} + (row.branch.selected ? ' active':'')\" class=\"abg-tree-row\"><td class=\"text-primary\"><a ng-click=\"user_clicks_branch(row.branch)\"><i ng-class=\"row.tree_icon\" ng-click=\"row.branch.expanded = !row.branch.expanded\" class=\"indented tree-icon\"></i></a><span class=\"indented tree-label\">{{row.branch[expandingProperty]}}</span></td><td ng-repeat=\"col in colDefinitions\">{{row.branch[col.field]}}</td></tr></tbody><table></div>",
         replace: true,
         scope: {
           treeData: '=',
@@ -18,7 +18,7 @@
           treeControl: '='
         },
         link: function(scope, element, attrs) {
-          var error, expand_all_parents, expand_level, for_all_ancestors, for_each_branch, get_parent, n, on_treeData_change, select_branch, selected_branch, tree;
+          var error, expandingProperty, expand_all_parents, expand_level, for_all_ancestors, for_each_branch, get_parent, n, on_treeData_change, select_branch, selected_branch, tree;
           error = function(s) {
             console.log('ERROR:' + s);
             debugger;
@@ -34,7 +34,7 @@
             attrs.iconLeaf = 'icon-file  glyphicon glyphicon-file  fa fa-file';
           }
           if (attrs.expandLevel == null) {
-            attrs.expandLevel = '3';
+            attrs.expandLevel = '2';
           }
           expand_level = parseInt(attrs.expandLevel, 10);
           if (!scope.treeData) {
@@ -48,6 +48,33 @@
               alert('treeData should be an array of root branches');
               return;
             }
+          }
+          if(!attrs.colDefs){
+            var _col_defs = [], _firstRow = scope.treeData[0];
+            for(var idx in _firstRow){
+              if(idx !='children')
+                _col_defs.push({field:idx});
+            }            
+            scope.colDefinitions = _col_defs;
+          }
+          else{
+            scope.colDefinitions = attrs.colDefs;
+          }
+          if(attrs.expandOn){
+            expandingProperty = attrs.expandOn;
+            scope.expandingProperty = attrs.expandOn;
+          }
+          else{
+            var _firstRow = scope.treeData[0], 
+                _keys = Object.keys(_firstRow);
+            for(var i =0, len = _keys.length; i<len; i++){
+              if(typeof(_firstRow[_keys[i]])=='string'){
+                expandingProperty = _keys[i];
+                break;
+              }
+            }
+            if(!expandingProperty) expandingProperty = _keys[0];
+            scope.expandingProperty = expandingProperty;
           }
           for_each_branch = function(f) {
             var do_f, root_branch, _i, _len, _ref, _results;
@@ -202,7 +229,7 @@
               scope.tree_rows.push({
                 level: level,
                 branch: branch,                
-                label: branch.Name,                
+                label: branch[expandingProperty],                
                 tree_icon: tree_icon,
                 visible: visible
               });

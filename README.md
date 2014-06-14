@@ -10,11 +10,7 @@ Include abgTree.css and abg-tree-directive.js
 
 In you html add the following
 
-      <abg-tree
-        tree-data  ="my_tree_data"
-        col-defs = "col_defs"
-        expand-on = "expand_property">
-      </abg-tree>
+      <abg-tree tree-data  ="my_tree_data"></abg-tree>
 
 
 **tree_data:** tree-data is an array of objects. If object has child put them in 'children' array of the object. an example of tree-data will look like. 
@@ -38,19 +34,6 @@ In you html add the following
 	  {Name:"Texas",Area:268581,Population:26448193,TimeZone:"Mountain"}
       ];
     
-**col_defs:** is an array of objects that allows you to customized column header. if displayName is not provided, field is used as display Name.
-
-     $scope.col_defs = [
-    	{ field: "Description"},
-    	{ field: "DemographicId", displayName: "Demographic Id"},
-    	{ field: "ParentId", displayName: "Parent Id"},
-    	{ field: "Area"},
-    	{ field: "Population"},
-    	{ field: "TimeZone", displayName: "Time Zone"}
-    ];
-
-**expand_property:** this is the property of the objects in 'tree_data' where you want to put the ability to expand and collapse. 
-
 ### More Options
 
     <abg-tree 
@@ -65,6 +48,19 @@ In you html add the following
         expand-level      = "2">      
     </abg-tree>
 
+
+**col_defs:** is an array of objects that allows you to customized column header. if displayName is not provided, field is used as display Name.
+
+     $scope.col_defs = [
+      { field: "Description"},
+      { field: "DemographicId", displayName: "Demographic Id"},
+      { field: "ParentId", displayName: "Parent Id"},
+      { field: "Area"},
+      { field: "Population"},
+      { field: "TimeZone", displayName: "Time Zone"}
+    ];
+
+**expand_property:** this is the property of the objects in 'tree_data' where you want to put the ability to expand and collapse. 
 
 **tree-control:** you can use 'tree-control' to use expand all and collapse all. check it out in the link provided for demo
 

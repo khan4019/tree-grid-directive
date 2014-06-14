@@ -37,6 +37,9 @@
     	{ field: "Population"},
     	{ field: "TimeZone", displayName: "Time Zone"}
     ];
+    $scope.my_tree_handler = function(branch){
+    	console.log('you clicked on', branch)
+    }
     function getTree(data, primaryIdName, parentIdName){
     	var item = data[0],
     		primaryKey = item[primaryIdName],
