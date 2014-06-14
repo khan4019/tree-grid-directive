@@ -6,7 +6,7 @@ A grid to display data in tree structure by using angular, bootstrap.
 #### Demo:: [http://khan4019.github.io/angular-bootstrap-grid-tree/test/abgTree.html](http://khan4019.github.io/angular-bootstrap-grid-tree/test/abgTree.html)
 
 ### Mininum to start
-Include abgTree.css and abg-tree-directive.js after bootstrap and angular. In your html just add the following
+Include src/abgTree.css and src/abg-tree-directive.js in your html file after bootstrap and angular. Just add the following
 
       <abg-tree tree-data="my_tree_data"></abg-tree>
 
@@ -73,5 +73,8 @@ if you have an array sorted by primary key and parent Key, you can use getTree i
         $scope.my_tree_handler = function(branch){
          	console.log('you clicked on', branch)
         }
+
+###custom template
+If you want to use custom template, change the template in line 10 src/abg-tree-directive.js. if you want to use template in html file, replace template="" by templateUrl="mytemplate.html"
 
 ####Inspired by [abn teee](https://github.com/nickperkinslondon/angular-bootstrap-nav-tree)
