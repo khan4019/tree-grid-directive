@@ -7,11 +7,12 @@
     '$timeout', function($timeout) {
       return {
         restrict: 'E',
-        template:'<div><table class="table table-bordered table-striped nav abg-tree"><thead><tr><th ng-repeat="col in colDefs">{{col.displayName || col.field}}</th></tr></thead><tbody><tr ng-repeat="row in tree_rows"><td ng-repeat="col in colDefs">{{row.branch[col.field]}}</td></tr></tbody><table></div>',
+        template:"<div><table class=\"table table-bordered table-striped nav abg-tree\"><thead><tr><th>{{expandOn}}</th><th ng-repeat=\"col in colDefs\">{{col.displayName || col.field}}</th></tr></thead><tbody><tr ng-repeat=\"row in tree_rows | filter:{visible:true} track by row.branch.uid\" ng-animate=\"'abn-tree-animate'\" ng-class=\"'level-' + {{ row.level }} + (row.branch.selected ? ' active':'')\" class=\"abg-tree-row\"><td><a ng-click=\"user_clicks_branch(row.branch)\"><i ng-class=\"row.tree_icon\" ng-click=\"row.branch.expanded = !row.branch.expanded\" class=\"indented tree-icon\"></i></a><span class=\"indented tree-label\">{{row.branch[expandOn]}}</span></td><td ng-repeat=\"col in colDefs\">{{row.branch[col.field]}}</td></tr></tbody><table></div>",
         replace: true,
         scope: {
           treeData: '=',
           colDefs:'=',
+          expandOn:'=',
           onSelect: '&',
           initialSelection: '@',
           treeControl: '='

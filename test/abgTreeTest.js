@@ -28,6 +28,7 @@
 
     $scope.my_data = myTreeData;    
     $scope.my_tree = tree = {};
+    $scope.expandingProperty = "Name";
     $scope.colDefs = [
     	{ field: "Name"},
     	{ field: "Description"},
