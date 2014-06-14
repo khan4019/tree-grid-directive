@@ -3,12 +3,12 @@ angular-bootstrap-grid-tree
 
 A grid to display data in tree structure by using angular, bootstrap.
 
-#### Demo:: [http://khan4019.github.io/angular-bootstrap-grid-tree/test/abgTree.html](http://khan4019.github.io/angular-bootstrap-grid-tree/test/abgTree.html)
+#### Demo:: [http://khan4019.github.io/angular-bootstrap-grid-tree/test/treeGrid.html](http://khan4019.github.io/tree-grid-directive/test/treeGrid.html)
 
 ### Mininum to start
-Include src/abgTree.css and src/abg-tree-directive.js in your html file after bootstrap and angular. Just add the following
+Include src/treeGrid.css and src/tree-grid-directive.js in your html file after bootstrap and angular. Just add the following
 
-      <abg-tree tree-data="my_tree_data"></abg-tree>
+      <tree-grid tree-data="my_tree_data"></tree-grid>
 
 
 **tree_data:** is an array of objects. If object has child put them in 'children' array of the object. an example of tree-data will look like. 
@@ -36,7 +36,7 @@ if you have an array sorted by primary key and parent Key, you can use getTree i
     
 ### More Options
 
-    <abg-tree 
+    <tree-grid 
         tree-data         = "my_treedata"
         col-Defs          = "col_defs"
         expand-on         = "expand_on"
@@ -46,7 +46,7 @@ if you have an array sorted by primary key and parent Key, you can use getTree i
         icon-collapse     = "icon-minus-sign"
         on-select         = "my_tree_handler(branch)"
         expand-level      = "2">      
-    </abg-tree>
+    </tree-grid>
 
 
 **col_defs:** is an array of objects that allows you to customized column header. if displayName is not provided, field (object property) is used as display Name.
@@ -75,6 +75,6 @@ if you have an array sorted by primary key and parent Key, you can use getTree i
         }
 
 ###custom template
-If you want to use custom template, change the template in line 10 src/abg-tree-directive.js. if you want to use template in html file, replace template="" by templateUrl="mytemplate.html"
+If you want to use custom template, change the template in line 10 src/tree-grid-directive.js. if you want to use template in html file, replace template="" by templateUrl="mytemplate.html"
 
 ####Inspired by [abn teee](https://github.com/nickperkinslondon/angular-bootstrap-nav-tree)

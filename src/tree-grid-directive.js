@@ -1,9 +1,9 @@
 (function() {
   var module;
 
-  module = angular.module('angularBootstrapNavTree', []);
+  module = angular.module('angularBootstrapTreeGrid', []);
 
-  module.directive('abgTree', [
+  module.directive('treeGrid', [
     '$timeout', function($timeout) {
       return {
         restrict: 'E',
@@ -49,8 +49,7 @@
               return;
             }
           }
-          if(attrs.expandOn){
-            console.log(scope.expandOn);
+          if(attrs.expandOn){            
             expandingProperty = scope.expandOn;
             scope.expandingProperty = scope.expandOn;
           }
@@ -169,7 +168,6 @@
                 return b.uid = "" + Math.random();
               }
             });
-            console.log('UIDs are set.');
             for_each_branch(function(b) {
               var child, _i, _len, _ref, _results;
               if (angular.isArray(b.children)) {
@@ -264,7 +262,6 @@
             });
           }
           n = scope.treeData.length;
-          console.log('num root branches = ' + n);
           for_each_branch(function(b, level) {
             b.level = level;
             return b.expanded = b.level < expand_level;

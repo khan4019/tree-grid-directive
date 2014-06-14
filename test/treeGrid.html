@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html ng-app="treeGridTest">
+  <head>
+    <!-- for local development -->    
+    <!-- <link rel="stylesheet" href="../lib/bootstrap/css/bootstrap.min.css"> -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../src/treeGrid.css">    
+  </head>
+  <body ng-controller="treeGridController" style="margin:20px">
+    <div class="row container">
+        <h1 class="text-center">tree-grid</h1>
+        <h4 class=" text-center text-info">trap tree in a grid</h4>
+        <p class="text-center"><a class="btn btn-success" href="https://github.com/khan4019/tree-grid-directive">code on github</a> <a class="btn btn-default" href="https://github.com/khan4019/tree-grid-directive/blob/master/README.md">show step by step</a></p>
+    </div>
+    <div ng-model="showMinDir" ng-value="false">
+        
+        <button ng-click="showMinDir=false" class="btn btn-primary btn-sm">Use standard directive</button>
+        <button ng-click="showMinDir=true" class="btn btn-primary btn-sm">Use minimum directive</button>
+        <br/><br/>
+        <div ng-show="!showMinDir">
+            <strong>standard directive: </strong><code>&lt;tree-grid tree-data="my_data" tree-control="my_tree" col-defs="col_defs" expand-on="expanding_property" on-select="my_tree_handler(branch)" expand-level="2" icon-leaf= "glyphicon glyphicon-globe"&gt;&lt;/tree-grid&gt;</code>
+            <br/>
+            <br/>
+            <button ng-click="my_tree.expand_all()" class="btn btn-default btn-sm">Expand All</button>
+            <button ng-click="my_tree.collapse_all()" class="btn btn-default btn-sm">Collapse All</button>
+            
+            <tree-grid tree-data="my_data" tree-control="my_tree" col-defs="col_defs" expand-on="expanding_property" on-select="my_tree_handler(branch)" expand-level="2" icon-leaf= "glyphicon glyphicon-globe"></tree-grid>
+        </div>
+        <div ng-show="showMinDir">
+            <strong>bare minimum directive:</strong> <code>&lt;tree-grid tree-data="my_data"&gt;&lt;/tree-grid&gt;</code>
+            <br/>
+            <br/>
+            <tree-grid tree-data="my_data"></tree-grid>
+        </div>
+    </div>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular.js"></script>
+    <!-- for local development -->
+    <!--
+        <script src="../lib/angular/angular.min.js"></script>
+    -->
+        
+    <script src="../src/tree-grid-directive.js"></script>    
+    <script src="treeGridTest.js"></script>
+    <script>
+    </script>
+  </body>
+</html>
