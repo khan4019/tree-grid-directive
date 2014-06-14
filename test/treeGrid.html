@@ -18,19 +18,19 @@
         <button ng-click="showMinDir=true" class="btn btn-primary btn-sm">Use minimum directive</button>
         <br/><br/>
         <div ng-show="!showMinDir">
-            <strong>standard directive: </strong><code>&lt;tree-grid tree-data="my_data" tree-control="my_tree" col-defs="col_defs" expand-on="expanding_property" on-select="my_tree_handler(branch)" expand-level="2" icon-leaf= "glyphicon glyphicon-globe"&gt;&lt;/tree-grid&gt;</code>
+            <strong>standard directive: </strong><code>&lt;tree-grid tree-data="tree_data" tree-control="my_tree" col-defs="col_defs" expand-on="expanding_property" on-select="my_tree_handler(branch)" expand-level="2" icon-leaf= "glyphicon glyphicon-globe"&gt;&lt;/tree-grid&gt;</code>
             <br/>
             <br/>
             <button ng-click="my_tree.expand_all()" class="btn btn-default btn-sm">Expand All</button>
             <button ng-click="my_tree.collapse_all()" class="btn btn-default btn-sm">Collapse All</button>
             
-            <tree-grid tree-data="my_data" tree-control="my_tree" col-defs="col_defs" expand-on="expanding_property" on-select="my_tree_handler(branch)" expand-level="2" icon-leaf= "glyphicon glyphicon-globe"></tree-grid>
+            <tree-grid tree-data="tree_data" tree-control="my_tree" col-defs="col_defs" expand-on="expanding_property" on-select="my_tree_handler(branch)" expand-level="2" icon-leaf= "glyphicon glyphicon-globe"></tree-grid>
         </div>
         <div ng-show="showMinDir">
-            <strong>bare minimum directive:</strong> <code>&lt;tree-grid tree-data="my_data"&gt;&lt;/tree-grid&gt;</code>
+            <strong>bare minimum directive:</strong> <code>&lt;tree-grid tree-data="tree_data"&gt;&lt;/tree-grid&gt;</code>
             <br/>
             <br/>
-            <tree-grid tree-data="my_data"></tree-grid>
+            <tree-grid tree-data="tree_data"></tree-grid>
         </div>
     </div>
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular.js"></script>
