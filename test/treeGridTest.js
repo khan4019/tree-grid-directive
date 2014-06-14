@@ -1,11 +1,11 @@
 (function() {
   var app, deps;
 
-  deps = ['angularBootstrapNavTree'];
+  deps = ['angularBootstrapTreeGrid'];
 
-  app = angular.module('abgTest', deps);
+  app = angular.module('treeGridTest', deps);
 
-  app.controller('abgTestController', function($scope, $timeout) {
+  app.controller('treeGridController', function($scope, $timeout) {
     var tree;
     
     var rawTreeData = [
