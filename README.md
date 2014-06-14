@@ -8,7 +8,7 @@ A grid to display data in tree structure by using angular, bootstrap.
 ### Mininum to start
 Include src/treeGrid.css and src/tree-grid-directive.js in your html file after bootstrap and angular. Just add the following
 
-      <tree-grid tree-data="my_tree_data"></tree-grid>
+      <tree-grid tree-data="tree_data"></tree-grid>
 
 
 **tree_data:** is an array of objects. If object has child put them in 'children' array of the object. an example of tree-data will look like. 
@@ -37,15 +37,15 @@ if you have an array sorted by primary key and parent Key, you can use getTree i
 ### More Options
 
     <tree-grid 
-        tree-data         = "my_treedata"
-        col-Defs          = "col_defs"
-        expand-on         = "expand_on"
-        tree-control      = "my_tree"
-        icon-leaf         = "icon-file"
-        icon-expand       = "icon-plus-sign"
-        icon-collapse     = "icon-minus-sign"
-        on-select         = "my_tree_handler(branch)"
-        expand-level      = "2">      
+        tree-data     = "tree_data"
+        col-Defs      = "col_defs"
+        expand-on     = "expanding_property"
+        tree-control  = "my_tree"
+        icon-leaf     = "icon-file"
+        icon-expand   = "icon-plus-sign"
+        icon-collapse = "icon-minus-sign"
+        on-select     = "my_tree_handler(branch)"
+        expand-level  = "2">      
     </tree-grid>
 
 
@@ -60,11 +60,11 @@ if you have an array sorted by primary key and parent Key, you can use getTree i
       { field: "TimeZone", displayName: "Time Zone"}
     ];
 
-**expand_property:** this is the property of the objects in 'tree_data' where you want to put the ability to expand and collapse. 
+**expanding_property:** this is the property of the objects in 'tree_data' where you want to put the ability to expand and collapse. 
 
-**tree-control:** you can use 'tree-control' to use expand all and collapse all. check it out in the link provided for demo
+**my_tree:** you can use 'tree-control' to use expand all and collapse all. check it out in the link provided for demo
 
-**icon:** define Font Awesome, bootstrap glyphicon for expand, collapse and leaf
+**icons:** define Font Awesome, bootstrap glyphicon for expand, collapse and leaf
 
 **expand-level:** depth of the tree, you want to expand while loading
 
