@@ -1,17 +1,15 @@
 <!DOCTYPE html>
 <html ng-app="abgTest">
   <head>
-    <link rel="stylesheet" href="../css/bootstrap/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../src//abgTree.css">    
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../src/abgTree.css">    
   </head>
   <body ng-controller="abgTestController" style="margin:20px">
     <h1 class="text-center">angular-bootstrap-grid-tree</h1>
 
     <button ng-click="my_tree.expand_all()" class="btn btn-default btn-sm">Expand All</button>
     <button ng-click="my_tree.collapse_all()" class="btn btn-default btn-sm">Collapse All</button>
-
-    <abg-tree tree-data="my_data" tree-control="my_tree" col-Defs="colDefs" expand-On="expandingProperty" on-select="my_tree_handler(branch)" expand-level="2" icon-leaf= "glyphicon glyphicon-globe"></abg-tree>    
-    
+    <abg-tree tree-data="my_data" tree-control="my_tree" col-Defs="col_defs" expand-On="expanding_property" on-select="my_tree_handler(branch)" expand-level="2" icon-leaf= "glyphicon glyphicon-globe"></abg-tree>    
     <script src="../js/angular/angular.js"></script>
     <script src="../js/angular/angular-animate.js"></script>
     <script src="../src/abg-tree-directive.js"></script>    

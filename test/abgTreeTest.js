@@ -28,8 +28,8 @@
 
     $scope.my_data = myTreeData;    
     $scope.my_tree = tree = {};
-    $scope.expandingProperty = "Name";
-    $scope.colDefs = [
+    $scope.expanding_property = "Name";
+    $scope.col_defs = [
     	{ field: "Description"},
     	{ field: "DemographicId", displayName: "Demographic Id"},
     	{ field: "ParentId", displayName: "Parent Id"},
