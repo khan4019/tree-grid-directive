@@ -21,15 +21,15 @@ In you html add the following
 
      $scope.tree_data = [
          {Name:"USA",Area:9826675,Population:318212000,TimeZone:"UTC -5 to -10",
-	      childrend:[
+	      children:[
 			{Name:"California", Area:423970,Population:38340000,TimeZone:"Pacific Time",
-				childrend:[
+				children:[
 					{Name:"San Francisco", Area:231,Population:837442,TimeZone:"PST"},
     				{Name:"Los Angeles", Area:503,Population:3904657,TimeZone:"PST"}
 				]
 			},
 			{Name:"Illinois", Area:57914,Population:12882135,TimeZone:"Central Time Zone",
-				childrend:[
+				children:[
 					{Name:"Chicago", Area:234,Population:2695598,TimeZone:"CST"}
 				]
 			}
@@ -78,4 +78,4 @@ In you html add the following
          	console.log('you clicked on', branch)
         }
 
-####disclaimer: **style and concept** inspired by [abn teee](https://github.com/nickperkinslondon/angular-bootstrap-nav-tree)
+####Inspired by [abn teee](https://github.com/nickperkinslondon/angular-bootstrap-nav-tree)
