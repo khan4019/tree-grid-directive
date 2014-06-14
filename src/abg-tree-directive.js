@@ -7,10 +7,11 @@
     '$timeout', function($timeout) {
       return {
         restrict: 'E',
-        templateUrl: "gridTable-view.html",
+        template:'<div><table class="table table-bordered table-striped nav abg-tree"><thead><tr><th ng-repeat="col in colDefs">{{col.displayName || col.field}}</th></tr></thead><tbody><tr ng-repeat="row in tree_rows"><td ng-repeat="col in colDefs">{{row.branch[col.field]}}</td></tr></tbody><table></div>',
         replace: true,
         scope: {
           treeData: '=',
+          colDefs:'=',
           onSelect: '&',
           initialSelection: '@',
           treeControl: '='

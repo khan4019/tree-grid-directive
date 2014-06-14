@@ -26,6 +26,17 @@
     
     var myTreeData = getTree(rawTreeData, 'DemographicId', 'ParentId');
 
+    $scope.my_data = myTreeData;    
+    $scope.my_tree = tree = {};
+    $scope.colDefs = [
+    	{ field: "Name"},
+    	{ field: "Description"},
+    	{ field: "DemographicId", displayName: "Demographic Id"},
+    	{ field: "ParentId", displayName: "Parent Id"},
+    	{ field: "Area"},
+    	{ field: "Population"},
+    	{ field: "TimeZone", displayName: "Time Zone"}
+    ];
     function getTree(data, primaryIdName, parentIdName){
     	var item = data[0],
     		primaryKey = item[primaryIdName],
@@ -51,9 +62,6 @@
 		return [tree[data[0][primaryIdName]]];
     }
 
-    $scope.my_data = myTreeData;    
-    $scope.my_tree = tree = {};
-    
   });
 
 }).call(this);
