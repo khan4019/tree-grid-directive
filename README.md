@@ -1,19 +1,17 @@
 angular-bootstrap-grid-tree
 ===========================
 
-A grid that has tree structure rows. using angular, bootstrap
+A grid to display data in tree structure by using angular, bootstrap.
 
 #### Demo:: [http://khan4019.github.io/angular-bootstrap-grid-tree/test/abgTree.html](http://khan4019.github.io/angular-bootstrap-grid-tree/test/abgTree.html)
 
-##### Mininum to start
-Include abgTree.css and abg-tree-directive.js
+### Mininum to start
+Include abgTree.css and abg-tree-directive.js after bootstrap and angular. In your html just add the following
 
-In you html add the following
-
-      <abg-tree tree-data  ="my_tree_data"></abg-tree>
+      <abg-tree tree-data="my_tree_data"></abg-tree>
 
 
-**tree_data:** tree-data is an array of objects. If object has child put them in 'children' array of the object. an example of tree-data will look like. 
+**tree_data:** is an array of objects. If object has child put them in 'children' array of the object. an example of tree-data will look like. 
 
      $scope.tree_data = [
          {Name:"USA",Area:9826675,Population:318212000,TimeZone:"UTC -5 to -10",
@@ -33,6 +31,8 @@ In you html add the following
 	  },	
 	  {Name:"Texas",Area:268581,Population:26448193,TimeZone:"Mountain"}
       ];
+
+if you have an array sorted by primary key and parent Key, you can use getTree inside temp folder.
     
 ### More Options
 
@@ -49,7 +49,7 @@ In you html add the following
     </abg-tree>
 
 
-**col_defs:** is an array of objects that allows you to customized column header. if displayName is not provided, field is used as display Name.
+**col_defs:** is an array of objects that allows you to customized column header. if displayName is not provided, field (object property) is used as display Name.
 
      $scope.col_defs = [
       { field: "Description"},
