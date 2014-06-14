@@ -1,5 +1,5 @@
 /* 
-   abn-tree.css
+   treeGrid.css
 
    style for the angular-bootstrap-nav-tree
    for both Bootstrap 2 and Bootstrap 3
@@ -15,22 +15,22 @@ The first selector is for Angular 1.1.5
 The second selector is for Angular 1.2.0
 
 */
-.abg-tree-animate-enter,
-.abg-tree-row.ng-enter {
+.tree-grid-animate-enter,
+.tree-grid-row.ng-enter {
   transition: 200ms linear all;
   position: relative;
   display: block;
   opacity: 0;
   max-height:0px;
 }
-.abg-tree-animate-enter.abg-tree-animate-enter-active,
-.abg-tree-row.ng-enter-active{
+.tree-grid-animate-enter.tree-grid-animate-enter-active,
+.tree-grid-row.ng-enter-active{
   opacity: 1;
   max-height:30px;
 }
 
-.abg-tree-animate-leave,
-.abg-tree-row.ng-leave {
+.tree-grid-animate-leave,
+.tree-grid-row.ng-leave {
   transition: 200ms linear all;
   position: relative;
   display: block;
@@ -38,8 +38,8 @@ The second selector is for Angular 1.2.0
   max-height: 30px;
   opacity: 1;
 }
-.abg-tree-animate-leave.abg-tree-animate-leave-active,
-.abg-tree-row.ng-leave-active {  
+.tree-grid-animate-leave.tree-grid-animate-leave-active,
+.tree-grid-row.ng-leave-active {  
   height: 0px;
   max-height:0px;
   opacity: 0;
@@ -52,10 +52,10 @@ Angular 1.2.0 Animation
 */
 
 
-.abg-tree-animate.ng-enter{
+.tree-grid-animate.ng-enter{
 
 }
-.abg-tree-animate.ng-enter{
+.tree-grid-animate.ng-enter{
 
 }
 
@@ -67,55 +67,55 @@ Angular 1.2.0 Animation
 -----------------------------------------
    begin normal css stuff
 */
-.abg-tree .abg-tree-row {  
+.tree-grid .tree-grid-row {  
   padding: 0px;
   margin:0px;
 }
 
-.abg-tree .abg-tree-row a {
+.tree-grid .tree-grid-row a {
   padding: 3px 10px;
 }
 
-.abg-tree i.indented {
+.tree-grid i.indented {
   padding: 2px;
 }
 
-.abg-tree {
+.tree-grid {
   cursor: pointer;
 }
-.nav.abg-tree .level-1 .indented {
+.nav.tree-grid .level-1 .indented {
   position: relative;
   left: 0px;
 }
-.nav.abg-tree .level-2 .indented {
+.nav.tree-grid .level-2 .indented {
   position: relative;
   left: 20px;
 }
-.nav.abg-tree .level-3 .indented {
+.nav.tree-grid .level-3 .indented {
   position: relative;
   left: 40px;
 }
-.nav.abg-tree .level-4 .indented {
+.nav.tree-grid .level-4 .indented {
   position: relative;
   left: 60px;
 }
-.nav.abg-tree .level-5 .indented {
+.nav.tree-grid .level-5 .indented {
   position: relative;
   left: 80px;
 }
-.nav.abg-tree .level-6 .indented {
+.nav.tree-grid .level-6 .indented {
   position: relative;
   left: 100px;
 }
-.nav.nav-list.abg-tree .level-7 .indented {
+.nav.nav-list.tree-grid .level-7 .indented {
   position: relative;
   left: 120px;
 }
-.nav.nav-list.abg-tree .level-8 .indented {
+.nav.nav-list.tree-grid .level-8 .indented {
   position: relative;
   left: 140px;
 }
-.nav.nav-list.abg-tree .level-9 .indented {
+.nav.nav-list.tree-grid .level-9 .indented {
   position: relative;
   left: 160px;
 }
