@@ -1,11 +1,15 @@
-angular-bootstrap-grid-tree
+tree-grid-directive
 ===========================
 
 A grid to display data in tree structure by using angular, bootstrap.
 
-#### Demo:: [http://khan4019.github.io/angular-bootstrap-grid-tree/test/treeGrid.html](http://khan4019.github.io/tree-grid-directive/test/treeGrid.html)
+### It's open source (MIT license)
+Feel free to whatever you want to do with it.
+
+#### Demo:: [http://khan4019.github.io/tree-grid-directive/test/treeGrid.html](http://khan4019.github.io/tree-grid-directive/test/treeGrid.html)
 
 ### Mininum to start
+-------------------------------
 Include src/treeGrid.css and src/tree-grid-directive.js in your html file after bootstrap and angular. Just add the following
 
       <tree-grid tree-data="tree_data"></tree-grid>
@@ -35,6 +39,8 @@ Include src/treeGrid.css and src/tree-grid-directive.js in your html file after 
 if you have an array sorted by primary key and parent Key, you can use getTree inside temp folder.
     
 ### More Options
+_____________________________
+If you want more customization, you can use the following options
 
     <tree-grid 
         tree-data     = "tree_data"
