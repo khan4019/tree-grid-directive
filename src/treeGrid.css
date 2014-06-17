@@ -1,20 +1,13 @@
 /* 
    treeGrid.css
 
-   style for the angular-bootstrap-nav-tree
+   style for the tree-grid
    for both Bootstrap 2 and Bootstrap 3
 
 */
 
 
 
-/* ------------------------------------------
-AngularJS Animations...
-
-The first selector is for Angular 1.1.5
-The second selector is for Angular 1.2.0
-
-*/
 .tree-grid-animate-enter,
 .tree-grid-row.ng-enter {
   transition: 200ms linear all;
@@ -83,39 +76,39 @@ Angular 1.2.0 Animation
 .tree-grid {
   cursor: pointer;
 }
-.nav.tree-grid .level-1 .indented {
+.tree-grid .level-1 .indented {
   position: relative;
   left: 0px;
 }
-.nav.tree-grid .level-2 .indented {
+.tree-grid .level-2 .indented {
   position: relative;
   left: 20px;
 }
-.nav.tree-grid .level-3 .indented {
+.tree-grid .level-3 .indented {
   position: relative;
   left: 40px;
 }
-.nav.tree-grid .level-4 .indented {
+.tree-grid .level-4 .indented {
   position: relative;
   left: 60px;
 }
-.nav.tree-grid .level-5 .indented {
+.tree-grid .level-5 .indented {
   position: relative;
   left: 80px;
 }
-.nav.tree-grid .level-6 .indented {
+.tree-grid .level-6 .indented {
   position: relative;
   left: 100px;
 }
-.nav.nav-list.tree-grid .level-7 .indented {
+.tree-grid .level-7 .indented {
   position: relative;
   left: 120px;
 }
-.nav.nav-list.tree-grid .level-8 .indented {
+.tree-grid .level-8 .indented {
   position: relative;
   left: 140px;
 }
-.nav.nav-list.tree-grid .level-9 .indented {
+.tree-grid .level-9 .indented {
   position: relative;
   left: 160px;
 }

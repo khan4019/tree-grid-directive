@@ -1,7 +1,7 @@
 (function() {
   var app, deps;
 
-  deps = ['angularBootstrapTreeGrid'];
+  deps = ['treeGrid'];
 
   app = angular.module('treeGridTest', deps);
 
@@ -35,8 +35,6 @@
     $scope.expanding_property = "Name";
     $scope.col_defs = [
     	{ field: "Description"},
-    	{ field: "DemographicId", displayName: "Demographic Id"},
-    	{ field: "ParentId", displayName: "Parent Id"},
     	{ field: "Area"},
     	{ field: "Population"},
     	{ field: "TimeZone", displayName: "Time Zone"}

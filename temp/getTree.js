@@ -4,46 +4,60 @@
 
 	it just loop through the array
 */
-function getTree(data, primaryIdName, parentIdName){
-	if(!data || data.length==0 || !primaryIdName ||!parentIdName)
-		return [];
+function getTreeForDueToAnalysis(data, primaryIdName, parentIdName) {
+    if (!data || data.length == 0 || !primaryIdName || !parentIdName)
+        return [];
 
-	var tree = [],
-		rootIds = [],
-		item = data[0],
-		primaryKey = item[primaryIdName],
-		treeObjs = {},
-		parentId,
-		parent,
-		len = data.length,
-		i = 0;
+    var tree = [],
+    rootIds = [],
+    item = data[0],
+    primaryKey = item[primaryIdName],
+    treeObjs = {},
+        tempChildren = {},
+    parentId,
+    parent,
+    len = data.length,
+    i = 0;
 
+    while (i < len) {
+        item = data[i++];
+        primaryKey = item[primaryIdName];
 
-	
-	while(i<len){
-		item = data[i++];
-		primaryKey = item[primaryIdName];			
-		treeObjs[primaryKey] = item;
-		parentId = item[parentIdName];
+        if (tempChildren[primaryKey]) {
+            item.children = tempChildren[primaryKey];
+            delete tempChildren[primaryKey];
+        }
 
-		if(parentId){
-			parent = treeObjs[parentId];	
+        treeObjs[primaryKey] = item;
+        parentId = item[parentIdName];
 
-			if(parent.children){
-				parent.children.push(item);
-			}
-			else{
-				parent.children = [item];
-			}
-		}
-		else{
-			rootIds.push(primaryKey);
-		}
-	}
+        if (parentId) {
+            parent = treeObjs[parentId];
 
-	for (var i = 0; i < rootIds.length; i++) {
-		tree.push(treeObjs[rootIds[i]]);
-	};
+            if (!parent) {
+                var siblings = tempChildren[parentId];
+                if (siblings) {
+                    siblings.push(item);
+                }
+                else {
+                    tempChildren[parentId] = [item];
+                }
+            }
+            else if (parent.children) {
+                parent.children.push(item);
+            }
+            else {
+                parent.children = [item];
+            }
+        }
+        else {
+            rootIds.push(primaryKey);
+        }
+    }
 
-	return tree;
+    for (var i = 0; i < rootIds.length; i++) {
+        tree.push(treeObjs[rootIds[i]]);
+    };
+
+    return tree;
 }
