@@ -1,13 +1,14 @@
 (function() {
   var module;
 
-  module = angular.module('angularBootstrapTreeGrid', []);
+  module = angular.module('treeGrid', []);
 
   module.directive('treeGrid', [
     '$timeout', function($timeout) {
       return {
         restrict: 'E',
-        template:"<div><table class=\"table table-bordered table-striped nav tree-grid\"><thead class=\"text-primary\"><tr><th>{{expandingProperty}}</th><th ng-repeat=\"col in colDefinitions\">{{col.displayName || col.field}}</th></tr></thead><tbody><tr ng-repeat=\"row in tree_rows | filter:{visible:true} track by row.branch.uid\" ng-class=\"'level-' + {{ row.level }} + (row.branch.selected ? ' active':'')\" class=\"tree-grid-row\"><td class=\"text-primary\"><a ng-click=\"user_clicks_branch(row.branch)\"><i ng-class=\"row.tree_icon\" ng-click=\"row.branch.expanded = !row.branch.expanded\" class=\"indented tree-icon\"></i></a><span class=\"indented tree-label\">{{row.branch[expandingProperty]}}</span></td><td ng-repeat=\"col in colDefinitions\">{{row.branch[col.field]}}</td></tr></tbody><table></div>",
+        //templateUrl:'tree-grid-template.html',
+        template:"<div><table class=\"table table-bordered table-striped tree-grid\"><thead class=\"text-primary\"><tr><th>{{expandingProperty}}</th><th ng-repeat=\"col in colDefinitions\">{{col.displayName || col.field}}</th></tr></thead><tbody><tr ng-repeat=\"row in tree_rows | filter:{visible:true} track by row.branch.uid\" ng-class=\"'level-' + {{ row.level }} + (row.branch.selected ? ' active':'')\" class=\"tree-grid-row\"><td class=\"text-primary\"><a ng-click=\"user_clicks_branch(row.branch)\"><i ng-class=\"row.tree_icon\" ng-click=\"row.branch.expanded = !row.branch.expanded\" class=\"indented tree-icon\"></i></a><span class=\"indented tree-label\">{{row.branch[expandingProperty]}}</span></td><td ng-repeat=\"col in colDefinitions\">{{row.branch[col.field]}}</td></tr></tbody><table></div>",
         replace: true,
         scope: {
           treeData: '=',
@@ -66,14 +67,15 @@
             scope.expandingProperty = expandingProperty;
           }
           if(!attrs.colDefs){
-            var _col_defs = [], _firstRow = scope.treeData[0];
+            var _col_defs = [], _firstRow = scope.treeData[0], _unwantedColumn = ['children', 'level', 'expanded', expandingProperty];
             for(var idx in _firstRow){
-              if(idx !='children' && idx != expandingProperty)
+              if(_unwantedColumn.indexOf(idx)==-1)
                 _col_defs.push({field:idx});
             }            
             scope.colDefinitions = _col_defs;
           }
           else{
+            console.log(scope.colDefs);
             scope.colDefinitions = scope.colDefs;
           }
           for_each_branch = function(f) {
