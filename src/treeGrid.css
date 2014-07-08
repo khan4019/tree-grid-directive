@@ -64,6 +64,10 @@ Angular 1.2.0 Animation
   padding: 0px;
   margin:0px;
 }
+.tree-grid .tree-grid-row td {
+    padding: 1px;
+    margin:0px;
+}
 
 .tree-grid .tree-grid-row a {
   padding: 3px 10px;
@@ -74,7 +78,6 @@ Angular 1.2.0 Animation
 }
 
 .tree-grid {
-  cursor: pointer;
 }
 .tree-grid .level-1 .indented {
   position: relative;
@@ -111,4 +114,14 @@ Angular 1.2.0 Animation
 .tree-grid .level-9 .indented {
   position: relative;
   left: 160px;
+}
+
+.tree-grid .tree-icon,
+.tree-label {
+    cursor: pointer;
+}
+
+table.tree-grid {
+    max-height: 500px;
+    overflow-y: scroll;
 }
