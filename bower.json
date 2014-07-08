@@ -6,10 +6,10 @@
     "licence":"MIT",
     "keywords":["angularjs","bootstrap","tree", "grid","widget"],
     "authors":["Md Khan"],
-    "homepage"  :"https://github.com/khan4019/angular-bootstrap-grid-tree",
+    "homepage"  :"https://github.com/okigan/tree-grid-directive",
     "repository":{
         "type":"git",
-        "url":"git://github.com/khan4019/angular-bootstrap-grid-tree"
+        "url":"git://github.com/okigan/tree-grid-directive"
     },
     "ignore": [
         "src",
