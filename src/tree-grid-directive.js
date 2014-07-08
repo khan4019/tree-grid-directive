@@ -1,3 +1,4 @@
+
 (function() {
   var module;
 
@@ -8,7 +9,30 @@
       return {
         restrict: 'E',
         //templateUrl:'tree-grid-template.html',
-        template:"<div><table class=\"table table-bordered table-striped tree-grid\"><thead class=\"text-primary\"><tr><th>{{expandingProperty}}</th><th ng-repeat=\"col in colDefinitions\">{{col.displayName || col.field}}</th></tr></thead><tbody><tr ng-repeat=\"row in tree_rows | filter:{visible:true} track by row.branch.uid\" ng-class=\"'level-' + {{ row.level }} + (row.branch.selected ? ' active':'')\" class=\"tree-grid-row\"><td class=\"text-primary\"><a ng-click=\"user_clicks_branch(row.branch)\"><i ng-class=\"row.tree_icon\" ng-click=\"row.branch.expanded = !row.branch.expanded\" class=\"indented tree-icon\"></i></a><span class=\"indented tree-label\">{{row.branch[expandingProperty]}}</span></td><td ng-repeat=\"col in colDefinitions\">{{row.branch[col.field]}}</td></tr></tbody><table></div>",
+        //template:"<div><table class=\"table table-bordered table-striped tree-grid\"><thead class=\"text-primary\"><tr><th>{{expandingProperty}}</th><th ng-repeat=\"col in colDefinitions\">{{col.displayName || col.field}}</th></tr></thead><tbody><tr ng-repeat=\"row in tree_rows | filter:{visible:true} track by row.branch.uid\" ng-class=\"'level-' + {{ row.level }} + (row.branch.selected ? ' active':'')\" class=\"tree-grid-row\"><td class=\"text-primary\"><a ng-click=\"user_clicks_branch(row.branch)\"><i ng-class=\"row.tree_icon\" ng-click=\"row.branch.expanded = !row.branch.expanded\" class=\"indented tree-icon\"></i></a><span class=\"indented tree-label\">{{row.branch[expandingProperty]}}</span></td><td ng-repeat=\"col in colDefinitions\">{{row.branch[col.field]}}</td></tr></tbody><table></div>",
+        template:
+          "<div>\
+              <table class=\"table table-bordered table-striped tree-grid\">\
+                  <thead class=\"text-primary\">\
+                  <tr>\
+                      <th>{{expandingProperty}}</th>\
+                      <th ng-repeat=\"col in colDefinitions\">{{col.displayName || col.field}}</th>\
+                  </tr>\
+                  </thead>\
+                  <tbody>\
+                  <tr ng-repeat=\"row in tree_rows | filter:{visible:true} track by row.branch.uid\"\
+                      ng-class=\"'level-' + {{ row.level }} + (row.branch.selected ? ' active':'')\" class=\"tree-grid-row\">\
+                      <td class=\"text-primary\"><a ng-click=\"user_clicks_branch(row.branch)\"><i ng-class=\"row.tree_icon\"\
+                                 ng-click=\"row.branch.expanded = !row.branch.expanded\"\
+                                 class=\"indented tree-icon\"></i>\
+                          </a><span class=\"indented tree-label\" ng-click=\"user_clicks_branch(row.branch)\">\
+                            {{row.branch[expandingProperty]}}</span>\
+                      </td>\
+                      <td ng-repeat=\"col in colDefinitions\">{{row.branch[col.field]}}</td>\
+                  </tr>\
+                  </tbody>\
+              </table>\
+          </div>",
         replace: true,
         scope: {
           treeData: '=',
@@ -20,11 +44,13 @@
         },
         link: function(scope, element, attrs) {
           var error, expandingProperty, expand_all_parents, expand_level, for_all_ancestors, for_each_branch, get_parent, n, on_treeData_change, select_branch, selected_branch, tree;
+
           error = function(s) {
             console.log('ERROR:' + s);
             debugger;
             return void 0;
           };
+
           if (attrs.iconExpand == null) {
             attrs.iconExpand = 'icon-plus  glyphicon glyphicon-plus  fa fa-plus';
           }
@@ -35,9 +61,11 @@
             attrs.iconLeaf = 'icon-file  glyphicon glyphicon-file  fa fa-file';
           }
           if (attrs.expandLevel == null) {
-            attrs.expandLevel = '2';
+            attrs.expandLevel = '3';
           }
+
           expand_level = parseInt(attrs.expandLevel, 10);
+
           if (!scope.treeData) {
             alert('no treeData defined for the tree!');
             return;
@@ -66,6 +94,7 @@
             if(!expandingProperty) expandingProperty = _keys[0];
             scope.expandingProperty = expandingProperty;
           }
+
           if(!attrs.colDefs){
             var _col_defs = [], _firstRow = scope.treeData[0], _unwantedColumn = ['children', 'level', 'expanded', expandingProperty];
             for(var idx in _firstRow){
@@ -78,6 +107,7 @@
             console.log(scope.colDefs);
             scope.colDefinitions = scope.colDefs;
           }
+
           for_each_branch = function(f) {
             var do_f, root_branch, _i, _len, _ref, _results;
             do_f = function(branch, level) {
@@ -162,7 +192,9 @@
               return b.expanded = true;
             });
           };
+
           scope.tree_rows = [];
+
           on_treeData_change = function() {
             var add_branch_to_list, root_branch, _i, _len, _ref, _results;
             for_each_branch(function(b, level) {
@@ -253,7 +285,9 @@
             }
             return _results;
           };
+
           scope.$watch('treeData', on_treeData_change, true);
+
           if (attrs.initialSelection != null) {
             for_each_branch(function(b) {
               if (b.label === attrs.initialSelection) {
