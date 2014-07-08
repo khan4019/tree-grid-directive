@@ -2,7 +2,7 @@
     "name": "angular-bootstrap-grid-tree",
     "version": "0.1.0",
     "description":"A Grid That display Tree Control for AngularJS, using CSS animation and Bootstrap style",
-    "main":["dist/abg-tree-directive.js","dist/abgTree.css"],
+    "main":["src/treeGrid.css","src/tree-grid-directive.js"],
     "licence":"MIT",
     "keywords":["angularjs","bootstrap","tree", "grid","widget"],
     "authors":["Md Khan"],
