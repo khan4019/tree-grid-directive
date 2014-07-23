@@ -12,7 +12,6 @@
         "url":"git://github.com/khan4019/angular-bootstrap-grid-tree"
     },
     "ignore": [
-        "src",
         "temp",
         "test",
         ".gitignore",
