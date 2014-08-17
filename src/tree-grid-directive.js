@@ -4,29 +4,29 @@
             return {
                 restrict: 'E',
                 //templateUrl:'tree-grid-template.html',
-                //template:"<div><table class=\"table table-bordered table-striped tree-grid\"><thead class=\"text-primary\"><tr><th>{{expandingProperty}}</th><th ng-repeat=\"col in colDefinitions\">{{col.displayName || col.field}}</th></tr></thead><tbody><tr ng-repeat=\"row in tree_rows | filter:{visible:true} track by row.branch.uid\" ng-class=\"'level-' + {{ row.level }} + (row.branch.selected ? ' active':'')\" class=\"tree-grid-row\"><td class=\"text-primary\"><a ng-click=\"user_clicks_branch(row.branch)\"><i ng-class=\"row.tree_icon\" ng-click=\"row.branch.expanded = !row.branch.expanded\" class=\"indented tree-icon\"></i></a><span class=\"indented tree-label\">{{row.branch[expandingProperty]}}</span></td><td ng-repeat=\"col in colDefinitions\">{{row.branch[col.field]}}</td></tr></tbody><table></div>",
-                template: "<div  class=\"table-responsive\">\
-                  <table class=\"table table-bordered table-striped tree-grid\">\
-                      <thead class=\"text-primary\">\
-                      <tr>\
-                          <th>{{expandingProperty}}</th>\
-                          <th ng-repeat=\"col in colDefinitions\">{{col.displayName || col.field}}</th>\
-                      </tr>\
-                      </thead>\
-                      <tbody>\
-                      <tr ng-repeat=\"row in tree_rows | filter:{visible:true} track by row.branch.uid\"\
-                          ng-class=\"'level-' + {{ row.level }} + (row.branch.selected ? ' active':'')\" class=\"tree-grid-row\">\
-                          <td class=\"text-primary\"><a ng-click=\"user_clicks_branch(row.branch)\"><i ng-class=\"row.tree_icon\"\
-                                     ng-click=\"row.branch.expanded = !row.branch.expanded\"\
-                                     class=\"indented tree-icon\"></i>\
-                              </a><span class=\"indented tree-label\" ng-click=\"user_clicks_branch(row.branch)\">\
-                                {{row.branch[expandingProperty]}}</span>\
-                          </td>\
-                          <td ng-repeat=\"col in colDefinitions\">{{row.branch[col.field]}}</td>\
-                      </tr>\
-                      </tbody>\
-                  </table>\
-              </div>",
+                //template:"<div><table class=\"table table-bordered table-striped tree-grid\"><thead class=\"text-primary\"><tr><th>{{expandingProperty.displayName}}</th><th ng-repeat=\"col in colDefinitions\">{{col.displayName || col.field}}</th></tr></thead><tbody><tr ng-repeat=\"row in tree_rows | filter:{visible:true} track by row.branch.uid\" ng-class=\"'level-' + {{ row.level }} + (row.branch.selected ? ' active':'')\" class=\"tree-grid-row\"><td class=\"text-primary\"><a ng-click=\"user_clicks_branch(row.branch)\"><i ng-class=\"row.tree_icon\" ng-click=\"row.branch.expanded = !row.branch.expanded\" class=\"indented tree-icon\"></i></a><span class=\"indented tree-label\">{{row.branch[expandingProperty.field]}}</span></td><td ng-repeat=\"col in colDefinitions\">{{row.branch[col.field]}}</td></tr></tbody><table></div>",
+                template: "<div class=\"table-responsive\">\
+              <table class=\"table table-bordered table-striped tree-grid\">\
+                  <thead class=\"text-primary\">\
+                  <tr>\
+                      <th>{{expandingProperty.displayName}}</th>\
+                      <th ng-repeat=\"col in colDefinitions\">{{col.displayName || col.field}}</th>\
+                  </tr>\
+                  </thead>\
+                  <tbody>\
+                  <tr ng-repeat=\"row in tree_rows | filter:{visible:true} track by row.branch.uid\"\
+                      ng-class=\"'level-' + {{ row.level }} + (row.branch.selected ? ' active':'')\" class=\"tree-grid-row\">\
+                      <td class=\"text-primary\"><a ng-click=\"user_clicks_branch(row.branch)\"><i ng-class=\"row.tree_icon\"\
+                                 ng-click=\"row.branch.expanded = !row.branch.expanded\"\
+                                 class=\"indented tree-icon\"></i>\
+                          </a><span class=\"indented tree-label\" ng-click=\"user_clicks_branch(row.branch)\">\
+                            {{row.branch[expandingProperty.field]}}</span>\
+                      </td>\
+                      <td ng-repeat=\"col in colDefinitions\">{{row.branch[col.field]}}</td>\
+                  </tr>\
+                  </tbody>\
+              </table>\
+          </div>",
                 replace: true,
                 scope: {
                     treeData: '=',
@@ -43,64 +43,52 @@
                         console.log('ERROR:' + s);
                         debugger;
                         return void 0;
-                    };
-
-                    if (attrs.iconExpand == null) {
-                        attrs.iconExpand = 'icon-plus  glyphicon glyphicon-plus  fa fa-plus';
-                    }
-                    if (attrs.iconCollapse == null) {
-                        attrs.iconCollapse = 'icon-minus glyphicon glyphicon-minus fa fa-minus';
-                    }
-                    if (attrs.iconLeaf == null) {
-                        attrs.iconLeaf = 'icon-file  glyphicon glyphicon-file  fa fa-file';
-                    }
-                    if (attrs.expandLevel == null) {
-                        attrs.expandLevel = '3';
                     }
 
+                    attrs.iconExpand = attrs.iconExpand ? attrs.iconExpand : 'icon-plus  glyphicon glyphicon-plus  fa fa-plus';
+                    attrs.iconCollapse = attrs.iconCollapse ? attrs.iconCollapse : 'icon-minus glyphicon glyphicon-minus fa fa-minus';
+                    attrs.iconLeaf = attrs.iconLeaf ? attrs.iconLeaf : 'icon-file  glyphicon glyphicon-file  fa fa-file';
+                    attrs.expandLevel = attrs.expandLevel ? attrs.expandLevel : '3';
                     expand_level = parseInt(attrs.expandLevel, 10);
 
                     if (!scope.treeData) {
-                        alert('no treeData defined for the tree!');
+                        alert('No data was defined for the tree, please define treeData!');
                         return;
                     }
-                    if (scope.treeData.length == null) {
-                        if (treeData.label != null) {
-                            scope.treeData = [treeData];
-                        } else {
-                            alert('treeData should be an array of root branches');
-                            return;
-                        }
-                    }
+
                     if (attrs.expandOn) {
                         expandingProperty = scope.expandOn;
                         scope.expandingProperty = scope.expandOn;
                     } else {
-                        var _firstRow = scope.treeData[0],
-                            _keys = Object.keys(_firstRow);
-                        for (var i = 0, len = _keys.length; i < len; i++) {
-                            if (typeof (_firstRow[_keys[i]]) == 'string') {
-                                expandingProperty = _keys[i];
-                                break;
+                        if(scope.treeData.length) {
+                            var _firstRow = scope.treeData[0],
+                                _keys = Object.keys(_firstRow);
+                            for (var i = 0, len = _keys.length; i < len; i++) {
+                                if (typeof (_firstRow[_keys[i]]) === 'string') {
+                                    expandingProperty = _keys[i];
+                                    break;
+                                }
                             }
+                            if (!expandingProperty) expandingProperty = _keys[0];
+                            scope.expandingProperty = expandingProperty;
                         }
-                        if (!expandingProperty) expandingProperty = _keys[0];
-                        scope.expandingProperty = expandingProperty;
                     }
 
                     if (!attrs.colDefs) {
-                        var _col_defs = [],
-                            _firstRow = scope.treeData[0],
-                            _unwantedColumn = ['children', 'level', 'expanded', expandingProperty];
-                        for (var idx in _firstRow) {
-                            if (_unwantedColumn.indexOf(idx) == -1)
-                                _col_defs.push({
-                                    field: idx
-                                });
+                        if(scope.treeData.length) {
+                            var _col_defs = [],
+                                _firstRow = scope.treeData[0],
+                                _unwantedColumn = ['children', 'level', 'expanded', expandingProperty];
+                            for (var idx in _firstRow) {
+                                if (_unwantedColumn.indexOf(idx) === -1) {
+                                    _col_defs.push({
+                                        field: idx
+                                    });
+                                }
+                            }
+                            scope.colDefinitions = _col_defs;
                         }
-                        scope.colDefinitions = _col_defs;
                     } else {
-                        console.log(scope.colDefs);
                         scope.colDefinitions = scope.colDefs;
                     }
 
@@ -192,7 +180,6 @@
                     scope.tree_rows = [];
 
                     on_treeData_change = function () {
-                        console.log('Data changed?');
                         var add_branch_to_list, root_branch, _i, _len, _ref, _results;
                         for_each_branch(function (b, level) {
                             if (!b.uid) {
