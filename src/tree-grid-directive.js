@@ -4,23 +4,23 @@
             return {
                 restrict: 'E',
                 //templateUrl:'tree-grid-template.html',
-                //template:"<div><table class=\"table table-bordered table-striped tree-grid\"><thead class=\"text-primary\"><tr><th>{{expandingProperty.displayName}}</th><th ng-repeat=\"col in colDefinitions\">{{col.displayName || col.field}}</th></tr></thead><tbody><tr ng-repeat=\"row in tree_rows | filter:{visible:true} track by row.branch.uid\" ng-class=\"'level-' + {{ row.level }} + (row.branch.selected ? ' active':'')\" class=\"tree-grid-row\"><td class=\"text-primary\"><a ng-click=\"user_clicks_branch(row.branch)\"><i ng-class=\"row.tree_icon\" ng-click=\"row.branch.expanded = !row.branch.expanded\" class=\"indented tree-icon\"></i></a><span class=\"indented tree-label\">{{row.branch[expandingProperty.field]}}</span></td><td ng-repeat=\"col in colDefinitions\">{{row.branch[col.field]}}</td></tr></tbody><table></div>",
+                //template:"<div><table class=\"table table-bordered table-striped tree-grid\"><thead class=\"text-primary\"><tr><th>{{expandingProperty.displayName || expandingProperty.field || expandingProperty}}</th><th ng-repeat=\"col in colDefinitions\">{{col.displayName || col.field}}</th></tr></thead><tbody><tr ng-repeat=\"row in tree_rows | filter:{visible:true} track by row.branch.uid\" ng-class=\"'level-' + {{ row.level }} + (row.branch.selected ? ' active':'')\" class=\"tree-grid-row\"><td class=\"text-primary\"><a ng-click=\"user_clicks_branch(row.branch)\"><i ng-class=\"row.tree_icon\" ng-click=\"row.branch.expanded = !row.branch.expanded\" class=\"indented tree-icon\"></i></a><span class=\"indented tree-label\">{{row.branch[expandingProperty.field] || row.branch[expandingProperty]}}</span></td><td ng-repeat=\"col in colDefinitions\">{{row.branch[col.field]}}</td></tr></tbody><table></div>",
                 template: "<div class=\"table-responsive\">\
-              <table class=\"table table-bordered table-striped tree-grid\">\
-                  <thead class=\"text-primary\">\
+              <table class=\"table tree-grid\">\
+                  <thead>\
                   <tr>\
-                      <th>{{expandingProperty.displayName}}</th>\
+                      <th>{{expandingProperty.displayName || expandingProperty.field || expandingProperty}}</th>\
                       <th ng-repeat=\"col in colDefinitions\">{{col.displayName || col.field}}</th>\
                   </tr>\
                   </thead>\
                   <tbody>\
                   <tr ng-repeat=\"row in tree_rows | filter:{visible:true} track by row.branch.uid\"\
                       ng-class=\"'level-' + {{ row.level }} + (row.branch.selected ? ' active':'')\" class=\"tree-grid-row\">\
-                      <td class=\"text-primary\"><a ng-click=\"user_clicks_branch(row.branch)\"><i ng-class=\"row.tree_icon\"\
+                      <td><a ng-click=\"user_clicks_branch(row.branch)\"><i ng-class=\"row.tree_icon\"\
                                  ng-click=\"row.branch.expanded = !row.branch.expanded\"\
                                  class=\"indented tree-icon\"></i>\
                           </a><span class=\"indented tree-label\" ng-click=\"user_clicks_branch(row.branch)\">\
-                            {{row.branch[expandingProperty.field]}}</span>\
+                            {{row.branch[expandingProperty.field] || row.branch[expandingProperty]}}</span>\
                       </td>\
                       <td ng-repeat=\"col in colDefinitions\">{{row.branch[col.field]}}</td>\
                   </tr>\
