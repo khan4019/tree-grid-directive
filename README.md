@@ -14,6 +14,9 @@ Include src/treeGrid.css and src/tree-grid-directive.js in your html file after 
 
       <tree-grid tree-data="tree_data"></tree-grid>
 
+And then include it as a dependency in your application:
+
+	angular.module('myApp', ['treeGrid'])
 
 **tree_data:** is an array of objects. If object has child put them in 'children' array of the object. an example of tree-data will look like. 
 
