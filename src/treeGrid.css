@@ -60,19 +60,6 @@ Angular 1.2.0 Animation
 -----------------------------------------
    begin normal css stuff
 */
-.tree-grid .tree-grid-row {  
-  padding: 0px;
-  margin:0px;
-}
-.tree-grid .tree-grid-row td {
-    padding: 1px;
-    margin:0px;
-}
-
-.tree-grid .tree-grid-row a {
-  padding: 3px 10px;
-}
-
 .tree-grid i.indented {
   padding: 2px;
 }
