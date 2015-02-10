@@ -83,7 +83,7 @@ If `displayName` is not provided, `field` (object property) is used as `displayN
          	console.log('you clicked on', branch)
         }
 
-###custom template
+### Custom template
 If you want to use custom template, change the template in line 10 src/tree-grid-directive.js. if you want to use template in html file, replace template="" by templateUrl="mytemplate.html"
 
-####Inspired by [abn teee](https://github.com/nickperkinslondon/angular-bootstrap-nav-tree)
+#### Inspired by [abn tree](https://github.com/nickperkinslondon/angular-bootstrap-nav-tree)
