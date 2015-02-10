@@ -54,6 +54,7 @@ If you want more customization, you can use the following options:
         icon-expand   = "icon-plus-sign"
         icon-collapse = "icon-minus-sign"
         on-select     = "my_tree_handler(branch)"
+        template-url  = "path/to/treegrid/template.html"
         expand-level  = "2">
     </tree-grid>
 
@@ -75,6 +76,8 @@ If `displayName` is not provided, `field` (object property) is used as `displayN
 
 **icons:** define Font Awesome, Bootstrap Glyphicon for expand, collapse and leaf.
 
+**template-url:** URL for the custom template to be used.
+
 **expand-level:** depth of the tree, you want to expand while loading.
 
 **on-select:** a click handler while you are clicking on +/-
@@ -83,7 +86,22 @@ If `displayName` is not provided, `field` (object property) is used as `displayN
          	console.log('you clicked on', branch)
         }
 
-### Custom template
-If you want to use custom template, change the template in line 10 src/tree-grid-directive.js. if you want to use template in html file, replace template="" by templateUrl="mytemplate.html"
+### Specifying the template
+
+There are two ways to specify the template of the pagination controls directive:
+
+1. Use the `treegridTemplateProvider in your app's config block to set a **global** template for your app:
+
+	```
+	myApp.config(function(treegridTemplateProvider) {
+	    treegridTemplateProvider.setPath('path/to/treegrid/template.html');
+	});
+	```
+
+2. Use the `template-url` attribute on each treegrid directive to override a specific instance:
+
+	```
+	<tree-grid tree-data="treegrid" col-defs="col_defs" template-url="path/to/treegrid/template.html"></tree-grid>
+	```
 
 #### Inspired by [abn tree](https://github.com/nickperkinslondon/angular-bootstrap-nav-tree)
