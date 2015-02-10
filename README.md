@@ -1,7 +1,7 @@
 tree-grid-directive
-===========================
+===================
 
-A grid to display data in tree structure by using angular, bootstrap.
+A grid to display data in tree structure by using Angular and Bootstrap.
 
 ### It's open source (MIT license)
 Feel free to whatever you want to do with it.
@@ -9,16 +9,16 @@ Feel free to whatever you want to do with it.
 #### Demo:: [http://khan4019.github.io/tree-grid-directive/test/treeGrid.html](http://khan4019.github.io/tree-grid-directive/test/treeGrid.html)
 
 ### Mininum to start
--------------------------------
-Include src/treeGrid.css and src/tree-grid-directive.js in your html file after bootstrap and angular. Just add the following
+--------------------
+Include `src/treeGrid.css` and `src/tree-grid-directive.js` in your HTML file after Bootstrap and Angular. Just add the following
 
       <tree-grid tree-data="tree_data"></tree-grid>
 
-And then include it as a dependency in your application:
+Then include the module as a dependency in your application:
 
 	angular.module('myApp', ['treeGrid'])
 
-**tree_data:** is an array of objects. If object has child put them in 'children' array of the object. an example of tree-data will look like. 
+**tree_data:** is an array of objects. If object has child put them in `children` array of the object. an example of tree-data will look like: 
 
      $scope.tree_data = [
          {Name:"USA",Area:9826675,Population:318212000,TimeZone:"UTC -5 to -10",
@@ -39,26 +39,26 @@ And then include it as a dependency in your application:
 	  {Name:"Texas",Area:268581,Population:26448193,TimeZone:"Mountain"}
       ];
 
-if you have an array sorted by primary key and parent Key, you can use getTree inside temp folder.
+if you have an array sorted by primary key and parent Key, you can use the `getTree` method inside the `temp` folder.
     
 ### More Options
-_____________________________
-If you want more customization, you can use the following options
+----------------
+If you want more customization, you can use the following options:
 
     <tree-grid 
         tree-data     = "tree_data"
-        col-Defs      = "col_defs"
+        col-defs      = "col_defs"
         expand-on     = "expanding_property"
         tree-control  = "my_tree"
         icon-leaf     = "icon-file"
         icon-expand   = "icon-plus-sign"
         icon-collapse = "icon-minus-sign"
         on-select     = "my_tree_handler(branch)"
-        expand-level  = "2">      
+        expand-level  = "2">
     </tree-grid>
 
-
-**col_defs:** is an array of objects that allows you to customized column header. if displayName is not provided, field (object property) is used as display Name.
+**col_defs:** is an array of objects that allows you to customized column header.
+If `displayName` is not provided, `field` (object property) is used as `displayName`.
 
      $scope.col_defs = [
       { field: "Description"},
@@ -69,13 +69,13 @@ If you want more customization, you can use the following options
       { field: "TimeZone", displayName: "Time Zone"}
     ];
 
-**expanding_property:** this is the property of the objects in 'tree_data' where you want to put the ability to expand and collapse. 
+**expanding_property:** this is the property of the objects in `tree_data` where you want to put the ability to expand and collapse.
 
-**my_tree:** you can use 'tree-control' to use expand all and collapse all. check it out in the link provided for demo
+**my_tree:** you can use `tree-control` to use expand all and collapse all. Check it out in the link provided for demo.
 
-**icons:** define Font Awesome, bootstrap glyphicon for expand, collapse and leaf
+**icons:** define Font Awesome, Bootstrap Glyphicon for expand, collapse and leaf.
 
-**expand-level:** depth of the tree, you want to expand while loading
+**expand-level:** depth of the tree, you want to expand while loading.
 
 **on-select:** a click handler while you are clicking on +/-
 
