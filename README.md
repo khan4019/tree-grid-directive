@@ -1,7 +1,7 @@
 tree-grid-directive
-===========================
+===================
 
-A grid to display data in tree structure by using angular, bootstrap.
+A grid to display data in tree structure by using Angular and Bootstrap.
 
 ### It's open source (MIT license)
 Feel free to whatever you want to do with it.
@@ -9,13 +9,16 @@ Feel free to whatever you want to do with it.
 #### Demo:: [http://khan4019.github.io/tree-grid-directive/test/treeGrid.html](http://khan4019.github.io/tree-grid-directive/test/treeGrid.html)
 
 ### Mininum to start
--------------------------------
-Include src/treeGrid.css and src/tree-grid-directive.js in your html file after bootstrap and angular. Just add the following
+--------------------
+Include `src/treeGrid.css` and `src/tree-grid-directive.js` in your HTML file after Bootstrap and Angular. Just add the following
 
       <tree-grid tree-data="tree_data"></tree-grid>
 
+Then include the module as a dependency in your application:
 
-**tree_data:** is an array of objects. If object has child put them in 'children' array of the object. an example of tree-data will look like. 
+	angular.module('myApp', ['treeGrid'])
+
+**tree_data:** is an array of objects. If object has child put them in `children` array of the object. an example of tree-data will look like: 
 
      $scope.tree_data = [
          {Name:"USA",Area:9826675,Population:318212000,TimeZone:"UTC -5 to -10",
@@ -36,26 +39,27 @@ Include src/treeGrid.css and src/tree-grid-directive.js in your html file after 
 	  {Name:"Texas",Area:268581,Population:26448193,TimeZone:"Mountain"}
       ];
 
-if you have an array sorted by primary key and parent Key, you can use getTree inside temp folder.
+if you have an array sorted by primary key and parent Key, you can use the `getTree` method inside the `temp` folder.
     
 ### More Options
-_____________________________
-If you want more customization, you can use the following options
+----------------
+If you want more customization, you can use the following options:
 
     <tree-grid 
         tree-data     = "tree_data"
-        col-Defs      = "col_defs"
+        col-defs      = "col_defs"
         expand-on     = "expanding_property"
         tree-control  = "my_tree"
         icon-leaf     = "icon-file"
         icon-expand   = "icon-plus-sign"
         icon-collapse = "icon-minus-sign"
         on-select     = "my_tree_handler(branch)"
-        expand-level  = "2">      
+        template-url  = "path/to/treegrid/template.html"
+        expand-level  = "2">
     </tree-grid>
 
-
-**col_defs:** is an array of objects that allows you to customized column header. if displayName is not provided, field (object property) is used as display Name.
+**col_defs:** is an array of objects that allows you to customized column header.
+If `displayName` is not provided, `field` (object property) is used as `displayName`.
 
      $scope.col_defs = [
       { field: "Description"},
@@ -66,13 +70,15 @@ If you want more customization, you can use the following options
       { field: "TimeZone", displayName: "Time Zone"}
     ];
 
-**expanding_property:** this is the property of the objects in 'tree_data' where you want to put the ability to expand and collapse. 
+**expanding_property:** this is the property of the objects in `tree_data` where you want to put the ability to expand and collapse.
 
-**my_tree:** you can use 'tree-control' to use expand all and collapse all. check it out in the link provided for demo
+**my_tree:** you can use `tree-control` to use expand all and collapse all. Check it out in the link provided for demo.
 
-**icons:** define Font Awesome, bootstrap glyphicon for expand, collapse and leaf
+**icons:** define Font Awesome, Bootstrap Glyphicon for expand, collapse and leaf.
 
-**expand-level:** depth of the tree, you want to expand while loading
+**template-url:** URL for the custom template to be used.
+
+**expand-level:** depth of the tree, you want to expand while loading.
 
 **on-select:** a click handler while you are clicking on +/-
 
@@ -80,7 +86,36 @@ If you want more customization, you can use the following options
          	console.log('you clicked on', branch)
         }
 
-###custom template
-If you want to use custom template, change the template in line 10 src/tree-grid-directive.js. if you want to use template in html file, replace template="" by templateUrl="mytemplate.html"
+### Specifying the template
 
-####Inspired by [abn teee](https://github.com/nickperkinslondon/angular-bootstrap-nav-tree)
+There are two ways to specify the template of the pagination controls directive:
+
+1. Use the `treegridTemplateProvider in your app's config block to set a **global** template for your app:
+
+	```
+	myApp.config(function(treegridTemplateProvider) {
+	    treegridTemplateProvider.setPath('path/to/treegrid/template.html');
+	});
+	```
+
+2. Use the `template-url` attribute on each treegrid directive to override a specific instance:
+
+	```
+	<tree-grid tree-data="treegrid" col-defs="col_defs" template-url="path/to/treegrid/template.html"></tree-grid>
+	```
+
+### Loading the tree data from a REST API (or some external resource).
+
+First, set the `tree_data` to an empty array:
+
+	$scope.tree_data = [];
+
+Later, execute the query using promises and update the `tree_data` value with the resolved objects:
+
+	APIEndpoint
+		.find()
+		.then(function(objects){
+			$scope.tree_data = prepareDataForTreegrid(objects);
+		});
+
+#### Inspired by [abn tree](https://github.com/nickperkinslondon/angular-bootstrap-nav-tree)
