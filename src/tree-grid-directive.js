@@ -74,23 +74,27 @@
               return;
             }
 
-            if (attrs.expandOn) {
-              expandingProperty = scope.expandOn;
-              scope.expandingProperty = scope.expandOn;
-            } else {
-              if (scope.treeData.length) {
-                var _firstRow = scope.treeData[0],
-                  _keys = Object.keys(_firstRow);
-                for (var i = 0, len = _keys.length; i < len; i++) {
-                  if (typeof (_firstRow[_keys[i]]) === 'string') {
-                    expandingProperty = _keys[i];
-                    break;
+            var getExpandingProperty = function getExpandingProperty() {
+              if (attrs.expandOn) {
+                expandingProperty = scope.expandOn;
+                scope.expandingProperty = scope.expandOn;
+              } else {
+                if (scope.treeData.length) {
+                  var _firstRow = scope.treeData[0],
+                    _keys = Object.keys(_firstRow);
+                  for (var i = 0, len = _keys.length; i < len; i++) {
+                    if (typeof (_firstRow[_keys[i]]) === 'string') {
+                      expandingProperty = _keys[i];
+                      break;
+                    }
                   }
+                  if (!expandingProperty) expandingProperty = _keys[0];
+                  scope.expandingProperty = expandingProperty;
                 }
-                if (!expandingProperty) expandingProperty = _keys[0];
-                scope.expandingProperty = expandingProperty;
               }
-            }
+            };
+
+            getExpandingProperty();
 
             if (!attrs.colDefs) {
               if (scope.treeData.length) {
@@ -198,6 +202,8 @@
             scope.tree_rows = [];
 
             on_treeData_change = function () {
+              getExpandingProperty();
+
               var add_branch_to_list, root_branch, _i, _len, _ref, _results;
               for_each_branch(function (b, level) {
                 if (!b.uid) {
