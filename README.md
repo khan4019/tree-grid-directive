@@ -104,4 +104,18 @@ There are two ways to specify the template of the pagination controls directive:
 	<tree-grid tree-data="treegrid" col-defs="col_defs" template-url="path/to/treegrid/template.html"></tree-grid>
 	```
 
+### Loading the tree data from a REST API (or some external resource).
+
+First, set the `tree_data` to an empty array:
+
+	$scope.tree_data = [];
+
+Later, execute the query using promises and update the `tree_data` value with the resolved objects:
+
+	APIEndpoint
+		.find()
+		.then(function(objects){
+			$scope.tree_data = prepareDataForTreegrid(objects);
+		});
+
 #### Inspired by [abn tree](https://github.com/nickperkinslondon/angular-bootstrap-nav-tree)
