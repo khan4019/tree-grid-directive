@@ -22,7 +22,10 @@
           "           </a><span class=\"indented tree-label\" ng-click=\"user_clicks_branch(row.branch)\">\n" +
           "             {{row.branch[expandingProperty.field] || row.branch[expandingProperty]}}</span>\n" +
           "       </td>\n" +
-          "       <td ng-repeat=\"col in colDefinitions\">{{row.branch[col.field]}}</td>\n" +
+          "       <td ng-repeat=\"col in colDefinitions\">\n" +
+          "         <div ng-if=\"col.cellTemplate\" compile=\"col.cellTemplate\"></div>\n" +
+          "         <div ng-if=\"!col.cellTemplate\">{{row.branch[col.field]}}</div>\n" +
+          "       </td>\n" +
           "     </tr>\n" +
           "   </tbody>\n" +
           " </table>\n" +
@@ -34,6 +37,34 @@
     .module('treeGrid', [
       'template/treeGrid/treeGrid.html'
     ])
+
+    .directive('compile', [
+      '$compile',
+      function ($compile) {
+        return {
+          restrict: 'A',
+          link    : function (scope, element, attrs) {
+            // Watch for changes to expression.
+            scope.$watch(attrs.compile, function (new_val) {
+              /*
+               * Compile creates a linking function
+               * that can be used with any scope.
+               */
+              var link = $compile(new_val);
+
+              /*
+               * Executing the linking function
+               * creates a new element.
+               */
+              var new_elem = link(scope);
+
+              // Which we can then append to our DOM element.
+              element.append(new_elem);
+            });
+          }
+        };
+      }])
+
     .directive('treeGrid', [
       '$timeout',
       'treegridTemplate',

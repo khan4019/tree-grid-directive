@@ -61,13 +61,31 @@ If you want more customization, you can use the following options:
 **col_defs:** is an array of objects that allows you to customized column header.
 If `displayName` is not provided, `field` (object property) is used as `displayName`.
 
+Valid properties are:
+
+	field:        Hook to the field to know the column position in the table.
+	displayName:  Text that will be used in the column header.
+	cellTemplate: Template that will be used to show the value. Useful if you want to show images, for instance.
+
+Example:
+
      $scope.col_defs = [
-      { field: "Description"},
-      { field: "DemographicId", displayName: "Demographic Id"},
-      { field: "ParentId", displayName: "Parent Id"},
-      { field: "Area"},
-      { field: "Population"},
-      { field: "TimeZone", displayName: "Time Zone"}
+      {  field: "Description" },
+      {
+        field: "DemographicId",
+        displayName: "Demographic Id"
+      },
+      {
+        field: "ParentId",
+        displayName: "Parent Id"
+      },
+      { field: "Area" },
+      { field: "Population" },
+      {
+        field: "image",
+        displayName: "Image",
+        cellTemplate: "<img ng-src="{{ row.branch[col.field] }}" />"
+      }
     ];
 
 **expanding_property:** this is the property of the objects in `tree_data` where you want to put the ability to expand and collapse.
@@ -117,5 +135,23 @@ Later, execute the query using promises and update the `tree_data` value with th
 		.then(function(objects){
 			$scope.tree_data = prepareDataForTreegrid(objects);
 		});
+
+### Custom cell templates
+
+If for any reason you want to use a custom HTML to show a specific cell, for showing an image, colorpicker,
+or something else, you can use the `cellTemplate` option in the `col-defs` array, just use
+`{{ row.branch[col.field] }}` as the placeholder for the value of the cell anywhere in the HTML.
+
+Example:
+
+	$scope.col_defs = [
+      {
+        field: "DemographicId",
+        displayName: "Demographic Id",
+        cellTemplate: "<img ng-src="{{ row.branch[col.field] }}" />"
+      }
+    ];
+
+You can use whatever HTML you want, and all Angular directives will work as expected.
 
 #### Inspired by [abn tree](https://github.com/nickperkinslondon/angular-bootstrap-nav-tree)
