@@ -19,7 +19,7 @@
           "       <td><a ng-click=\"user_clicks_branch(row.branch)\"><i ng-class=\"row.tree_icon\"\n" +
           "              ng-click=\"row.branch.expanded = !row.branch.expanded\"\n" +
           "              class=\"indented tree-icon\"></i>\n" +
-          "           </a><span class=\"indented tree-label\" ng-click=\"user_clicks_branch(row.branch)\">\n" +
+          "           </a><span class=\"indented tree-label\" ng-click=\"on_user_click(row.branch)\">\n" +
           "             {{row.branch[expandingProperty.field] || row.branch[expandingProperty]}}</span>\n" +
           "       </td>\n" +
           "       <td ng-repeat=\"col in colDefinitions\">\n" +
@@ -82,6 +82,7 @@
             colDefs         : '=',
             expandOn        : '=',
             onSelect        : '&',
+            onClick         : '&',
             initialSelection: '@',
             treeControl     : '='
           },
@@ -197,6 +198,13 @@
                     });
                   }
                 }
+              }
+            };
+            scope.on_user_click = function (branch) {
+              if (scope.onClick) {
+                scope.onClick({
+                  branch: branch
+                });
               }
             };
             scope.user_clicks_branch = function (branch) {

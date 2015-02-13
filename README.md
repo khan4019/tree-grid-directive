@@ -54,6 +54,7 @@ If you want more customization, you can use the following options:
         icon-expand   = "icon-plus-sign"
         icon-collapse = "icon-minus-sign"
         on-select     = "my_tree_handler(branch)"
+        on-click      = "my_tree_handler(branch)"
         template-url  = "path/to/treegrid/template.html"
         expand-level  = "2">
     </tree-grid>
@@ -98,10 +99,17 @@ Example:
 
 **expand-level:** depth of the tree, you want to expand while loading.
 
-**on-select:** a click handler while you are clicking on +/-
+**on-select:** a click handler while you are clicking on +/- icons.
 
         $scope.my_tree_handler = function(branch){
          	console.log('you clicked on', branch)
+        }
+
+**on-click:** a click handler while you are clicking on the expanding property, useful when you
+need to redirect if a branch is selected.
+
+        $scope.my_tree_handler = function(branch){
+            console.log('you clicked on', branch)
         }
 
 ### Specifying the template
