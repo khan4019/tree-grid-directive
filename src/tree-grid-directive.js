@@ -9,20 +9,20 @@
           " <table class=\"table tree-grid\">\n" +
           "   <thead>\n" +
           "     <tr>\n" +
-          "       <th>{{expandingProperty.displayName || expandingProperty.field || expandingProperty}}</th>\n" +
-          "       <th ng-repeat=\"col in colDefinitions\">{{col.displayName || col.field}}</th>\n" +
+          "       <th ng-class=\"expandingProperty.titleClass\" ng-style=\"expandingProperty.titleStyle\">{{expandingProperty.displayName || expandingProperty.field || expandingProperty}}</th>\n" +
+          "       <th ng-repeat=\"col in colDefinitions\" ng-class=\"col.titleClass\" ng-style=\"col.titleStyle\">{{col.displayName || col.field}}</th>\n" +
           "     </tr>\n" +
           "   </thead>\n" +
           "   <tbody>\n" +
           "     <tr ng-repeat=\"row in tree_rows | filter:{visible:true} track by row.branch.uid\"\n" +
           "       ng-class=\"'level-' + {{ row.level }} + (row.branch.selected ? ' active':'')\" class=\"tree-grid-row\">\n" +
-          "       <td><a ng-click=\"user_clicks_branch(row.branch)\"><i ng-class=\"row.tree_icon\"\n" +
+          "       <td ng-class=\"expandingProperty.cellClass\" ng-style=\"expandingProperty.cellStyle\"><a ng-click=\"user_clicks_branch(row.branch)\"><i ng-class=\"row.tree_icon\"\n" +
           "              ng-click=\"row.branch.expanded = !row.branch.expanded\"\n" +
           "              class=\"indented tree-icon\"></i>\n" +
           "           </a><span class=\"indented tree-label\" ng-click=\"on_user_click(row.branch)\">\n" +
           "             {{row.branch[expandingProperty.field] || row.branch[expandingProperty]}}</span>\n" +
           "       </td>\n" +
-          "       <td ng-repeat=\"col in colDefinitions\">\n" +
+          "       <td ng-repeat=\"col in colDefinitions\" ng-class=\"col.cellClass\" ng-style=\"col.cellStyle\">\n" +
           "         <div ng-if=\"col.cellTemplate\" compile=\"col.cellTemplate\"></div>\n" +
           "         <div ng-if=\"!col.cellTemplate\">{{row.branch[col.field]}}</div>\n" +
           "       </td>\n" +
