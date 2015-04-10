@@ -64,9 +64,12 @@ If `displayName` is not provided, `field` (object property) is used as `displayN
 
 Valid properties are:
 
-	field:        Hook to the field to know the column position in the table.
-	displayName:  Text that will be used in the column header.
-	cellTemplate: Template that will be used to show the value. Useful if you want to show images, for instance.
+	field:              Hook to the field to know the column position in the table.
+	displayName:        Text that will be used in the column header.
+	cellTemplate:       Template that will be used to show the value. Useful if
+	                    you want to show images, for instance.
+	cellTemplateScope:  Used to pass the controllers methods you want to be
+	                    used inside the cell template.
 
 Example:
 
@@ -85,7 +88,12 @@ Example:
       {
         field: "image",
         displayName: "Image",
-        cellTemplate: "<img ng-src="{{ row.branch[col.field] }}" />"
+        cellTemplate: "<img ng-click="cellTemplateScope.click('example')" ng-src="{{ row.branch[col.field] }}" />",
+        cellTemplateScope: {
+            click: function(data) {         // this works too: $scope.someMethod;
+                console.log(data);
+            }
+        }
       }
     ];
 
@@ -161,5 +169,20 @@ Example:
     ];
 
 You can use whatever HTML you want, and all Angular directives will work as expected.
+
+Also, if you need to use some method or variable from your scope in the
+cell template, you can pass the reference to `cellTemplate` as:
+
+    cellTemplateScope: {
+        click: function(data) {         // this works too: $scope.someMethod;
+            console.log(data);
+        }
+    }
+
+and then use it in `cellTemplate` as:
+
+    cellTemplate: "<img ng-click="cellTemplateScope.click(row.branch[col.field])" ng-src="{{ row.branch[col.field] }}" />",
+
+and will work as expected.
 
 #### Inspired by [abn tree](https://github.com/nickperkinslondon/angular-bootstrap-nav-tree)
