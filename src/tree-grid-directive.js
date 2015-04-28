@@ -9,8 +9,8 @@
           " <table class=\"table tree-grid\">\n" +
           "   <thead>\n" +
           "     <tr>\n" +
-          "       <th>{{expandingProperty.displayName || expandingProperty.field || expandingProperty}}</th>\n" +
-          "       <th ng-repeat=\"col in colDefinitions\">{{col.displayName || col.field}}</th>\n" +
+          "       <th><a ng-click=\"sortBy(expandingProperty.field)\">{{expandingProperty.displayName || expandingProperty.field || expandingProperty}}</a></th>\n" +
+          "       <th ng-repeat=\"col in colDefinitions\"><a ng-if=\"col.sortable\" ng-click=\"sortBy(col)\">{{col.displayName || col.field}}</a><span ng-if=\"!col.sortable\">{{col.displayName || col.field}}</span><i ng-if=\"col.sorted\" class=\"{{sortingIcon}} pull-right\"></i></th>\n" +
           "     </tr>\n" +
           "   </thead>\n" +
           "   <tbody>\n" +
@@ -100,6 +100,8 @@
             attrs.iconExpand = attrs.iconExpand ? attrs.iconExpand : 'icon-plus  glyphicon glyphicon-plus  fa fa-plus';
             attrs.iconCollapse = attrs.iconCollapse ? attrs.iconCollapse : 'icon-minus glyphicon glyphicon-minus fa fa-minus';
             attrs.iconLeaf = attrs.iconLeaf ? attrs.iconLeaf : 'icon-file  glyphicon glyphicon-file  fa fa-file';
+            attrs.sortedAsc = attrs.sortedAsc ? attrs.sortedAsc : 'icon-file  glyphicon glyphicon-chevron-up  fa angle-up';
+            attrs.sortedDesc = attrs.sortedDesc ? attrs.sortedDesc : 'icon-file  glyphicon glyphicon-chevron-down  fa angle-down';
             attrs.expandLevel = attrs.expandLevel ? attrs.expandLevel : '3';
             expand_level = parseInt(attrs.expandLevel, 10);
 
@@ -214,6 +216,46 @@
                 return select_branch(branch);
               }
             };
+            /* sorting methods */
+            scope.sortBy = function (col) {    
+               resetSorting();
+               if(col.sortingType === "integer") {
+            	  if (col.sortDirection === "asc") {
+            	     scope.treeData.sort(sort_by(col.field, true, parseInt));
+            	     col.sortDirection = "desc";
+            	     scope.sortingIcon = attrs.sortedDesc;
+            	  }
+            	  else {
+                     scope.treeData.sort(sort_by(col.field, false, parseInt));
+                     col.sortDirection = "asc";
+                     scope.sortingIcon = attrs.sortedAsc;
+            	  }
+                  col.sorted = true;
+                  scope.sortingIcon = attrs.sortedAsc;
+               } else {
+            	  scope.treeData.sort(sort_by(col.field, false, null));
+            	  col.sorted = true;
+            	  scope.sortingIcon = attrs.sortedAsc;
+               }
+              };
+              
+              
+            var sort_by = function(field, descending, primer){
+               var key = primer ? function(x) {return primer(x[field])} : function(x) {return x[field]};
+               descending = !descending ? 1 : -1;
+               return function (a, b) {
+                   return a = key(a), b = key(b), descending * ((a > b) - (b > a));
+               }; 
+            }
+            
+            var resetSorting = function() {
+            	for(col in scope.colDefinitions) {
+            		col.sorted = false;
+            		col.sortDirection = "none";
+            	}
+            }
+              
+            /* end of sorting methods */
             get_parent = function (child) {
               var parent;
               parent = void 0;
