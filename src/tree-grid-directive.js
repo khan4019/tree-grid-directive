@@ -9,8 +9,8 @@
           " <table class=\"table tree-grid\">\n" +
           "   <thead>\n" +
           "     <tr>\n" +
-          "       <th><a ng-click=\"sortBy(true,expandingProperty)\">{{expandingProperty.displayName || expandingProperty.field || expandingProperty}}</a><i ng-if=\"expSorted\" class=\"{{expSortingIcon}} pull-right\"></i></th>\n" +
-          "       <th ng-repeat=\"col in colDefinitions\"><a ng-if=\"col.sortable\" ng-click=\"sortBy(false,col)\">{{col.displayName || col.field}}</a><span ng-if=\"!col.sortable\">{{col.displayName || col.field}}</span><i ng-if=\"col.sorted\" class=\"{{sortingIcon}} pull-right\"></i></th>\n" +
+          "       <th><a ng-click=\"sortBy(true,expandingProperty)\">{{expandingProperty.displayName || expandingProperty.field || expandingProperty}}</a><i ng-if=\"expandingProperty.sorted\" class=\"{{expandingProperty.sortingIcon}} pull-right\"></i></th>\n" +
+          "       <th ng-repeat=\"col in colDefinitions\"><a ng-if=\"col.sortable\" ng-click=\"sortBy(false,col)\">{{col.displayName || col.field}}</a><span ng-if=\"!col.sortable\">{{col.displayName || col.field}}</span><i ng-if=\"col.sorted\" class=\"{{col.sortingIcon}} pull-right\"></i></th>\n" +
           "     </tr>\n" +
           "   </thead>\n" +
           "   <tbody>\n" +
@@ -219,40 +219,21 @@
             
             /* sorting methods */
             scope.sortBy = function (expandingProperty,col) {
-            	if (expandingProperty) {
-            		if (scope.expSortDirection === "asc") {
-            			scope.treeData.sort(function(a,b){
-          			      return b[col] > a[col] ? 1 : (b[col] === a[col] ? 0 : -1);
-          			   });
-          		    scope.expSortDirection = "desc";
-          		    scope.expSortingIcon = attrs.sortedDesc;
-            		} else {
-            		   scope.treeData.sort(function(a,b){
-            			      return a[col] > b[col] ? 1 : ( a[col] === b[col] ? 0 : -1 );
-            			   });
-            		   scope.expSortDirection = "asc";
-            		   scope.expSortingIcon = attrs.sortedAsc;
-            		}
-            		scope.expSorted = true;            		
+            	if (col.sortDirection === "asc") {
+            	   scope.treeData.sort(sort_by(col.field, true, col.sortingType));
+            	   col.sortDirection = "desc";
+       	           col.sortingIcon = attrs.sortedDesc;
             	} else {
-            	   if (col.sortDirection === "asc") {
-            	      scope.treeData.sort(sort_by(col.field, true, col.sortingType));
-            	      col.sortDirection = "desc";
-       	              scope.sortingIcon = attrs.sortedDesc;
-            	   } else {
-            	      scope.treeData.sort(sort_by(col.field, false, col.sortingType));            		
-             	      col.sortDirection = "asc";
-        	          scope.sortingIcon = attrs.sortedAsc;	
-            	   }
-          	       col.sorted = true;
-          	       scope.expSorted = false;
-          	       scope.expSortDirection = "none";
-          	    }
+            	   scope.treeData.sort(sort_by(col.field, false, col.sortingType));            		
+             	   col.sortDirection = "asc";
+        	       col.sortingIcon = attrs.sortedAsc;	
+            	}
+          	    col.sorted = true;
                 resetSorting(col);              
               };       
 
             var sort_by = function(field, descending, sortingType){
-               var key = sortingType === "integer" ? function(x) {return parseInt(x[field])} : function(x) {return (x[field] === null ? "" : x[field].toLowerCase())};
+               var key = sortingType === "number" ? function(x) {return parseFloat(x[field])} : function(x) {return (x[field] === null ? "" : x[field].toLowerCase())};
                var direction = !descending ? 1 : -1;
                return function (a, b) {
                    return a = key(a), b = key(b), direction * ((a > b) - (b > a));
