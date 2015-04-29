@@ -9,8 +9,8 @@
           " <table class=\"table tree-grid\">\n" +
           "   <thead>\n" +
           "     <tr>\n" +
-          "       <th><a ng-click=\"sortBy(true,expandingProperty)\">{{expandingProperty.displayName || expandingProperty.field || expandingProperty}}</a><i ng-if=\"expandingProperty.sorted\" class=\"{{expandingProperty.sortingIcon}} pull-right\"></i></th>\n" +
-          "       <th ng-repeat=\"col in colDefinitions\"><a ng-if=\"col.sortable\" ng-click=\"sortBy(false,col)\">{{col.displayName || col.field}}</a><span ng-if=\"!col.sortable\">{{col.displayName || col.field}}</span><i ng-if=\"col.sorted\" class=\"{{col.sortingIcon}} pull-right\"></i></th>\n" +
+          "       <th><a ng-if=\"expandingProperty.sortable\" ng-click=\"sortBy(expandingProperty)\">{{expandingProperty.displayName || expandingProperty.field || expandingProperty}}</a><span ng-if=\"!expandingProperty.sortable\">{{expandingProperty.displayName || expandingProperty.field || expandingProperty}}</span><i ng-if=\"expandingProperty.sorted\" class=\"{{expandingProperty.sortingIcon}} pull-right\"></i></th>\n" +
+          "       <th ng-repeat=\"col in colDefinitions\"><a ng-if=\"col.sortable\" ng-click=\"sortBy(col)\">{{col.displayName || col.field}}</a><span ng-if=\"!col.sortable\">{{col.displayName || col.field}}</span><i ng-if=\"col.sorted\" class=\"{{col.sortingIcon}} pull-right\"></i></th>\n" +
           "     </tr>\n" +
           "   </thead>\n" +
           "   <tbody>\n" +
@@ -218,7 +218,7 @@
             };
             
             /* sorting methods */
-            scope.sortBy = function (expandingProperty,col) {
+            scope.sortBy = function (col) {
             	if (col.sortDirection === "asc") {
             	   scope.treeData.sort(sort_by(col.field, true, col.sortingType));
             	   col.sortDirection = "desc";

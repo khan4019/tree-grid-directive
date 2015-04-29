@@ -162,7 +162,8 @@
         $scope.my_tree = tree = {};
         $scope.expanding_property = {
             field: "Name",
-            displayName: "Demographic Name"
+            displayName: "Demographic Name",
+			sortable : true
         };
         $scope.col_defs = [
             {
