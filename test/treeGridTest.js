@@ -163,7 +163,8 @@
         $scope.expanding_property = {
             field: "Name",
             displayName: "Demographic Name",
-			sortable : true
+			sortable : true,
+			filterable: true
         };
         $scope.col_defs = [
             {
@@ -174,7 +175,8 @@
             {
                 field: "Area",
 				sortable : true,										
-				sortingType : "number"
+				sortingType : "number",
+				filterable: true
             },
             {
                 field: "Population",

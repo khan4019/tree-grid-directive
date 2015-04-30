@@ -70,6 +70,11 @@ Valid properties are:
 	                    you want to show images, for instance.
 	cellTemplateScope:  Used to pass the controllers methods you want to be
 	                    used inside the cell template.
+	sortable:  			The user can sort by the values of this field	
+	sortingType: 		The type of the field, for sorting or filtering purposes.
+						Possible values are "number", for numeric sorting, or
+						"string" for alphabetic sorting (this is the default)
+	filterable:			This field will be searched when filtering
 
 Example:
 
@@ -78,12 +83,18 @@ Example:
       {
         field: "DemographicId",
         displayName: "Demographic Id"
+		sortable : true,
+		filterable : true
       },
       {
         field: "ParentId",
         displayName: "Parent Id"
       },
-      { field: "Area" },
+      { field: "Area",
+        sortable : true,
+		sortingType : "number",
+		filterable : true
+	  },
       { field: "Population" },
       {
         field: "image",
@@ -98,6 +109,7 @@ Example:
     ];
 
 **expanding_property:** this is the property of the objects in `tree_data` where you want to put the ability to expand and collapse.
+This accepts an array of the same format as col_defs, allowing for sorting & filtering on the expanding field.
 
 **my_tree:** you can use `tree-control` to use expand all and collapse all. Check it out in the link provided for demo.
 

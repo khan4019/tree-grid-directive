@@ -14,7 +14,7 @@
           "     </tr>\n" +
           "   </thead>\n" +
           "   <tbody>\n" +
-          "     <tr ng-repeat=\"row in tree_rows | filter:{visible:true} track by row.branch.uid\"\n" +
+          "     <tr ng-repeat=\"row in tree_rows | searchFor:$parent.filterString:expandingProperty:colDefinitions track by row.branch.uid\"\n" +
           "       ng-class=\"'level-' + {{ row.level }} + (row.branch.selected ? ' active':'')\" class=\"tree-grid-row\">\n" +
           "       <td><a ng-click=\"user_clicks_branch(row.branch)\"><i ng-class=\"row.tree_icon\"\n" +
           "              ng-click=\"row.branch.expanded = !row.branch.expanded\"\n" +
@@ -647,5 +647,70 @@
           }
         };
       };
-    });
+    })
+  
+  .filter('searchFor', function() {
+		return function(arr, filterString, expandingProperty, colDefinitions) {
+			var filtered = [];
+			//only apply filter for strings 3 characters long or more
+		   if (!filterString || filterString.length < 3) {		     
+			   for (var i = 0; i < arr.length; i++) {
+		              var item = arr[i];
+		              if (item.visible) {
+		                 filtered.push(item);
+		           }
+		      }
+		   } else {          
+              for (var i = 0; i < arr.length; i++) {
+                 var item = arr[i];
+                 if (include(item, filterString, expandingProperty, colDefinitions)) {
+                    filtered.push(item);
+                 }
+              }
+		   }
+           return filtered;
+		};
+		
+		function include(item, filterString, expandingProperty, colDefinitions){
+			var includeItem = false;
+			var filterApplied = false;
+			//first check the expandingProperty
+			if (expandingProperty.filterable) {
+				filterApplied = true;
+			    if(checkItem(item, filterString, expandingProperty)) {
+			    	includeItem = true;
+			    }
+			}
+			//then check each of the other columns
+			var arraySize = colDefinitions.length;
+        	for (var i= 0;i<arraySize;i++) {
+        		var col = colDefinitions[i];
+        		if (col.filterable) {
+    				filterApplied = true;
+    			    if(checkItem(item, filterString, col)) {
+    			    	includeItem = true;
+    			    }
+    			}        		
+        	}
+			if (filterApplied) {
+			    return (includeItem && item.visible);
+			} else {
+				return item.visible;
+			}			
+		}
+		
+		function checkItem(item, filterString, col) {
+			if (col.sortingType === "number") {
+				if (item.branch[col.field] != null
+						  && parseFloat(item.branch[col.field]) === parseFloat(filterString)) {
+					return true;
+			    }
+			} else {
+			   if (item.branch[col.field] != null
+				  && item.branch[col.field].toLowerCase().indexOf(filterString) !== -1) {
+				   return true;
+			   }
+			}
+		}
+  });
 }).call(window);
