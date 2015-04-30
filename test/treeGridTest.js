@@ -15,7 +15,7 @@
                 "Name": "United States of America",
                 "Description": "United States of America",
                 "Area": 9826675,
-                "Population": 318212000,
+                "Population": 918212000,
                 "TimeZone": "UTC -5 to -10"
             },
             {
@@ -140,8 +140,8 @@
                 "ParentId": null,
                 "Name": "India",
                 "Description": "Hydrabad tech city",
-                "Area": 9826675,
-                "Population": 318212000,
+                "Area": 5566.9,
+                "Population": 718212000,
                 "TimeZone": "IST"
             },
             {
@@ -149,8 +149,8 @@
                 "ParentId": null,
                 "Name": "Bangladesh",
                 "Description": "Country of love",
-                "Area": 9826675,
-                "Population": 318212000,
+                "Area": 5566.78,
+                "Population": 718212004,
                 "TimeZone": "BST"
             }
             ];
@@ -162,17 +162,26 @@
         $scope.my_tree = tree = {};
         $scope.expanding_property = {
             field: "Name",
-            displayName: "Demographic Name"
+            displayName: "Demographic Name",
+			sortable : true,
+			filterable: true
         };
         $scope.col_defs = [
             {
-                field: "Description"
+                field: "Description",
+				sortable : true,										
+				sortingType : "string"
             },
             {
-                field: "Area"
+                field: "Area",
+				sortable : true,										
+				sortingType : "number",
+				filterable: true
             },
             {
-                field: "Population"
+                field: "Population",
+				sortable : true,										
+				sortingType : "number"
             },
             {
                 field: "TimeZone",

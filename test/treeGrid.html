@@ -23,7 +23,7 @@
             <br/>
             <button ng-click="my_tree.expand_all()" class="btn btn-default btn-sm">Expand All</button>
             <button ng-click="my_tree.collapse_all()" class="btn btn-default btn-sm">Collapse All</button>
-            
+            <input class="input-sm pull-right" type="text" data-ng-model="filterString"	placeholder="Filter" />
             <tree-grid tree-data="tree_data" tree-control="my_tree" col-defs="col_defs" expand-on="expanding_property" on-select="my_tree_handler(branch)" expand-level="2" icon-leaf= "glyphicon glyphicon-globe"></tree-grid>
         </div>
         <div ng-show="showMinDir">

@@ -9,12 +9,12 @@
           " <table class=\"table tree-grid\">\n" +
           "   <thead>\n" +
           "     <tr>\n" +
-          "       <th>{{expandingProperty.displayName || expandingProperty.field || expandingProperty}}</th>\n" +
-          "       <th ng-repeat=\"col in colDefinitions\">{{col.displayName || col.field}}</th>\n" +
+          "       <th><a ng-if=\"expandingProperty.sortable\" ng-click=\"sortBy(expandingProperty)\">{{expandingProperty.displayName || expandingProperty.field || expandingProperty}}</a><span ng-if=\"!expandingProperty.sortable\">{{expandingProperty.displayName || expandingProperty.field || expandingProperty}}</span><i ng-if=\"expandingProperty.sorted\" class=\"{{expandingProperty.sortingIcon}} pull-right\"></i></th>\n" +
+          "       <th ng-repeat=\"col in colDefinitions\"><a ng-if=\"col.sortable\" ng-click=\"sortBy(col)\">{{col.displayName || col.field}}</a><span ng-if=\"!col.sortable\">{{col.displayName || col.field}}</span><i ng-if=\"col.sorted\" class=\"{{col.sortingIcon}} pull-right\"></i></th>\n" +
           "     </tr>\n" +
           "   </thead>\n" +
           "   <tbody>\n" +
-          "     <tr ng-repeat=\"row in tree_rows | filter:{visible:true} track by row.branch.uid\"\n" +
+          "     <tr ng-repeat=\"row in tree_rows | searchFor:$parent.filterString:expandingProperty:colDefinitions track by row.branch.uid\"\n" +
           "       ng-class=\"'level-' + {{ row.level }} + (row.branch.selected ? ' active':'')\" class=\"tree-grid-row\">\n" +
           "       <td><a ng-click=\"user_clicks_branch(row.branch)\"><i ng-class=\"row.tree_icon\"\n" +
           "              ng-click=\"row.branch.expanded = !row.branch.expanded\"\n" +
@@ -100,6 +100,8 @@
             attrs.iconExpand = attrs.iconExpand ? attrs.iconExpand : 'icon-plus  glyphicon glyphicon-plus  fa fa-plus';
             attrs.iconCollapse = attrs.iconCollapse ? attrs.iconCollapse : 'icon-minus glyphicon glyphicon-minus fa fa-minus';
             attrs.iconLeaf = attrs.iconLeaf ? attrs.iconLeaf : 'icon-file  glyphicon glyphicon-file  fa fa-file';
+            attrs.sortedAsc = attrs.sortedAsc ? attrs.sortedAsc : 'icon-file  glyphicon glyphicon-chevron-up  fa angle-up';
+            attrs.sortedDesc = attrs.sortedDesc ? attrs.sortedDesc : 'icon-file  glyphicon glyphicon-chevron-down  fa angle-down';
             attrs.expandLevel = attrs.expandLevel ? attrs.expandLevel : '3';
             expand_level = parseInt(attrs.expandLevel, 10);
 
@@ -214,6 +216,43 @@
                 return select_branch(branch);
               }
             };
+            
+            /* sorting methods */
+            scope.sortBy = function (col) {
+            	if (col.sortDirection === "asc") {
+            	   scope.treeData.sort(sort_by(col.field, true, col.sortingType));
+            	   col.sortDirection = "desc";
+       	           col.sortingIcon = attrs.sortedDesc;
+            	} else {
+            	   scope.treeData.sort(sort_by(col.field, false, col.sortingType));            		
+             	   col.sortDirection = "asc";
+        	       col.sortingIcon = attrs.sortedAsc;	
+            	}
+          	    col.sorted = true;
+                resetSorting(col);              
+              };       
+
+            var sort_by = function(field, descending, sortingType){
+               var key = sortingType === "number" ? function(x) {return parseFloat(x[field])} : function(x) {return (x[field] === null ? "" : x[field].toLowerCase())};
+               var direction = !descending ? 1 : -1;
+               return function (a, b) {
+                   return a = key(a), b = key(b), direction * ((a > b) - (b > a));
+               }; 
+            }            
+            
+            var resetSorting = function(sortedCol) {
+            	var arraySize = scope.colDefinitions.length;
+            	for (var i= 0;i<arraySize;i++) {
+            		var col = scope.colDefinitions[i];
+            		if (col.field != sortedCol.field) {
+            			col.sorted = false;
+                		col.sortDirection = "none";	
+            		}
+            	}
+            }
+              
+            /* end of sorting methods */
+            
             get_parent = function (child) {
               var parent;
               parent = void 0;
@@ -608,5 +647,70 @@
           }
         };
       };
-    });
+    })
+  
+  .filter('searchFor', function() {
+		return function(arr, filterString, expandingProperty, colDefinitions) {
+			var filtered = [];
+			//only apply filter for strings 3 characters long or more
+		   if (!filterString || filterString.length < 3) {		     
+			   for (var i = 0; i < arr.length; i++) {
+		              var item = arr[i];
+		              if (item.visible) {
+		                 filtered.push(item);
+		           }
+		      }
+		   } else {          
+              for (var i = 0; i < arr.length; i++) {
+                 var item = arr[i];
+                 if (include(item, filterString, expandingProperty, colDefinitions)) {
+                    filtered.push(item);
+                 }
+              }
+		   }
+           return filtered;
+		};
+		
+		function include(item, filterString, expandingProperty, colDefinitions){
+			var includeItem = false;
+			var filterApplied = false;
+			//first check the expandingProperty
+			if (expandingProperty.filterable) {
+				filterApplied = true;
+			    if(checkItem(item, filterString, expandingProperty)) {
+			    	includeItem = true;
+			    }
+			}
+			//then check each of the other columns
+			var arraySize = colDefinitions.length;
+        	for (var i= 0;i<arraySize;i++) {
+        		var col = colDefinitions[i];
+        		if (col.filterable) {
+    				filterApplied = true;
+    			    if(checkItem(item, filterString, col)) {
+    			    	includeItem = true;
+    			    }
+    			}        		
+        	}
+			if (filterApplied) {
+			    return (includeItem && item.visible);
+			} else {
+				return item.visible;
+			}			
+		}
+		
+		function checkItem(item, filterString, col) {
+			if (col.sortingType === "number") {
+				if (item.branch[col.field] != null
+						  && parseFloat(item.branch[col.field]) === parseFloat(filterString)) {
+					return true;
+			    }
+			} else {
+			   if (item.branch[col.field] != null
+				  && item.branch[col.field].toLowerCase().indexOf(filterString) !== -1) {
+				   return true;
+			   }
+			}
+		}
+  });
 }).call(window);
