@@ -660,11 +660,25 @@
 		                 filtered.push(item);
 		           }
 		      }
-		   } else {          
+		   } else {
+			  var ancestorStack = [];
+			  var currentLevel = 0;
               for (var i = 0; i < arr.length; i++) {
                  var item = arr[i];
+                 while (currentLevel >= item.level) {
+                	 throwAway = ancestorStack.pop();
+                	 currentLevel--;
+                 }
+                 ancestorStack.push(item);
+                 currentLevel = item.level;
                  if (include(item, filterString, expandingProperty, colDefinitions)) {
-                    filtered.push(item);
+                	for(var ancestorIndex = 0; ancestorIndex < ancestorStack.length; ancestorIndex++) {
+                		ancestor = ancestorStack[ancestorIndex];
+                		if(ancestor.visible){
+                			filtered.push(ancestor);
+                		}
+                	} 
+                    ancestorStack = [];
                  }
               }
 		   }
@@ -693,9 +707,9 @@
     			}        		
         	}
 			if (filterApplied) {
-			    return (includeItem && item.visible);
+			    return includeItem;
 			} else {
-				return item.visible;
+				return true;
 			}			
 		}
 		
@@ -707,7 +721,7 @@
 			    }
 			} else {
 			   if (item.branch[col.field] != null
-				  && item.branch[col.field].toLowerCase().indexOf(filterString) !== -1) {
+				  && item.branch[col.field].toLowerCase().indexOf(filterString.toLowerCase()) !== -1) {
 				   return true;
 			   }
 			}
