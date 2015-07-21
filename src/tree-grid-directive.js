@@ -332,6 +332,10 @@
                   return branch.children = [];
                 }
               });
+              for_each_branch(function (b, level) {
+                b.level = level;
+                return b.expanded = b.level < expand_level;
+              });
               add_branch_to_list = function (level, branch, visible) {
                 var child, child_visible, tree_icon, _i, _len, _ref, _results;
                 if (branch.expanded == null) {
