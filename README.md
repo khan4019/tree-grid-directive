@@ -53,8 +53,9 @@ If you want more customization, you can use the following options:
         icon-leaf     = "icon-file"
         icon-expand   = "icon-plus-sign"
         icon-collapse = "icon-minus-sign"
-        on-select     = "my_tree_handler(branch)"
         on-click      = "my_tree_handler(branch)"
+        on-expand     = "my_tree_handler(branch)"
+        on-collapse   = "my_tree_handler(branch)"
         template-url  = "path/to/treegrid/template.html"
         expand-level  = "2">
     </tree-grid>
@@ -119,17 +120,25 @@ This accepts an array of the same format as col_defs, allowing for sorting & fil
 
 **expand-level:** depth of the tree, you want to expand while loading.
 
-**on-select:** a click handler while you are clicking on +/- icons.
-
-        $scope.my_tree_handler = function(branch){
-         	console.log('you clicked on', branch)
-        }
-
 **on-click:** a click handler while you are clicking on the expanding property, useful when you
 need to redirect if a branch is selected.
 
         $scope.my_tree_handler = function(branch){
             console.log('you clicked on', branch)
+        }
+
+**on-expand:** a click handler while you are clicking on the icon expand, useful when you 
+need populate the branch when the user expand it.
+
+        $scope.my_tree_handler = function(branch){
+            console.log('you expand', branch)
+        }
+
+**on-collapse:** a click handler while you are clicking on the collapse icon, useful when you 
+need call one action related to parent item.
+
+        $scope.my_tree_handler = function(branch){
+            console.log('you collapse', branch)
         }
 
 ### Specifying the template

@@ -3,7 +3,7 @@
   <head>
     <!-- for local development -->    
     <!-- <link rel="stylesheet" href="../lib/bootstrap/css/bootstrap.min.css"> -->
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="../src/treeGrid.css">    
   </head>
   <body ng-controller="treeGridController" style="margin:20px">
@@ -18,22 +18,22 @@
         <button ng-click="showMinDir=true" class="btn btn-primary btn-sm">Use minimum directive</button>
         <br/><br/>
         <div ng-show="!showMinDir">
-            <strong>standard directive: </strong><code>&lt;tree-grid tree-data="tree_data" tree-control="my_tree" col-defs="col_defs" expand-on="expanding_property" on-select="my_tree_handler(branch)" expand-level="2" icon-leaf= "glyphicon glyphicon-globe"&gt;&lt;/tree-grid&gt;</code>
+            <strong>standard directive: </strong><br><code>&lt;tree-grid tree-data="tree_data" tree-control="my_tree" col-defs="col_defs" expand-on="expanding_property" on-click="my_tree_handler_click(branch)" <br> on-expand="my_tree_handler_expand(branch)" on-collapse="my_tree_handler_collapse(branch)" expand-level="2" icon-leaf= "glyphicon glyphicon-globe"&gt;&lt;/tree-grid&gt;</code>
             <br/>
             <br/>
             <button ng-click="my_tree.expand_all()" class="btn btn-default btn-sm">Expand All</button>
             <button ng-click="my_tree.collapse_all()" class="btn btn-default btn-sm">Collapse All</button>
             <input class="input-sm pull-right" type="text" data-ng-model="filterString"	placeholder="Filter" />
-            <tree-grid tree-data="tree_data" tree-control="my_tree" col-defs="col_defs" expand-on="expanding_property" on-select="my_tree_handler(branch)" expand-level="2" icon-leaf= "glyphicon glyphicon-globe"></tree-grid>
+            <tree-grid tree-data="tree_data" tree-control="my_tree" col-defs="col_defs" expand-on="expanding_property" on-click="my_tree_handler_click(branch)" on-expand="my_tree_handler_expand(branch)" on-collapse="my_tree_handler_collapse(branch)" expand-level="2" icon-leaf= "glyphicon glyphicon-globe"></tree-grid>
         </div>
         <div ng-show="showMinDir">
-            <strong>bare minimum directive:</strong> <code>&lt;tree-grid tree-data="tree_data"&gt;&lt;/tree-grid&gt;</code>
+            <strong>bare minimum directive:</strong><br><code>&lt;tree-grid tree-data="tree_data"&gt;&lt;/tree-grid&gt;</code>
             <br/>
             <br/>
             <tree-grid tree-data="tree_data"></tree-grid>
         </div>
     </div>
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular.js"></script>
     <!-- for local development -->
     <!--
         <script src="../lib/angular/angular.min.js"></script>
