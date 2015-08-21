@@ -188,8 +188,14 @@
                 displayName: "Time Zone"
             }
         ];
-        $scope.my_tree_handler = function (branch) {
+        $scope.my_tree_handler_click = function (branch) {
             console.log('you clicked on', branch)
+        }
+        $scope.my_tree_handler_expand = function (branch) {
+            console.log('you expand', branch)
+        }
+        $scope.my_tree_handler_collapse = function (branch) {
+            console.log('you collapse', branch)
         }
 
         function getTree(data, primaryIdName, parentIdName) {
