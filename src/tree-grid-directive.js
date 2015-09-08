@@ -241,8 +241,12 @@
 
             var sort_by = function(col, descending) {
 
+              var direction = !descending ? 1 : -1;
+
               if (col.sortingType === "custom" && typeof col.sortingFunc === "function") {
-                return col.sortingFunc;
+                return function (a, b) {
+                  return col.sortingFunc(a, b) * direction;
+                };
               }
 
               var key = function(x) {
@@ -258,9 +262,8 @@
                   break;
               }
 
-              var direction = !descending ? 1 : -1;
               return function (a, b) {
-                  return a = key(a), b = key(b), direction * ((a > b) - (b > a));
+                return a = key(a), b = key(b), direction * ((a > b) - (b > a));
               };
             }
 
@@ -672,7 +675,7 @@
         };
       };
     })
-  
+
   .filter('searchFor', function() {
 		return function(arr, filterString, expandingProperty, colDefinitions) {
 			var filtered = [];
