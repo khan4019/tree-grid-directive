@@ -220,26 +220,50 @@
             /* sorting methods */
             scope.sortBy = function (col) {
             	if (col.sortDirection === "asc") {
-            	   scope.treeData.sort(sort_by(col.field, true, col.sortingType));
+                 sort_recursive(scope.treeData, col, true);
             	   col.sortDirection = "desc";
        	           col.sortingIcon = attrs.sortedDesc;
             	} else {
-            	   scope.treeData.sort(sort_by(col.field, false, col.sortingType));            		
+            	   sort_recursive(scope.treeData, col, false);
              	   col.sortDirection = "asc";
-        	       col.sortingIcon = attrs.sortedAsc;	
+        	       col.sortingIcon = attrs.sortedAsc;
             	}
           	    col.sorted = true;
-                resetSorting(col);              
-              };       
+                resetSorting(col);
+              };
 
-            var sort_by = function(field, descending, sortingType){
-               var key = sortingType === "number" ? function(x) {return parseFloat(x[field])} : function(x) {return (x[field] === null ? "" : x[field].toLowerCase())};
-               var direction = !descending ? 1 : -1;
-               return function (a, b) {
-                   return a = key(a), b = key(b), direction * ((a > b) - (b > a));
-               }; 
-            }            
-            
+            var sort_recursive = function(elements, col, descending) {
+              elements.sort(sort_by(col, descending));
+              for (var i = 0; i < elements.length; i++) {
+                  sort_recursive(elements[i].children, col, descending);
+              }
+            };
+
+            var sort_by = function(col, descending) {
+
+              if (col.sortingType === "custom" && typeof col.sortingFunc === "function") {
+                return col.sortingFunc;
+              }
+
+              var key = function(x) {
+                return (x[col.field] === null ? "" : x[col.field].toLowerCase());
+              };
+
+              switch(col.sortingType) {
+                case "number":
+                  key = function(x) { return parseFloat(x[col.field]); };
+                  break;
+                case "date":
+                  key = function (x) { return new Date(x[col.field]); };
+                  break;
+              }
+
+              var direction = !descending ? 1 : -1;
+              return function (a, b) {
+                  return a = key(a), b = key(b), direction * ((a > b) - (b > a));
+              };
+            }
+
             var resetSorting = function(sortedCol) {
             	var arraySize = scope.colDefinitions.length;
             	for (var i= 0;i<arraySize;i++) {
