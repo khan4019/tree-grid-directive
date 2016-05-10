@@ -18,8 +18,7 @@
           "       ng-class=\"'level-' + {{ row.level }} + (row.branch.selected ? ' active':'')\" class=\"tree-grid-row\">\n" +
           "       <td><a ng-click=\"user_clicks_branch(row.branch)\"><i ng-class=\"row.tree_icon\"\n" +
           "              ng-click=\"row.branch.expanded = !row.branch.expanded\"\n" +
-          "              class=\"indented tree-icon\"></i>\n" +
-          "           </a><span class=\"indented tree-label\" ng-click=\"on_user_click(row.branch)\">\n" +
+          "              class=\"indented tree-icon\"></i></a><span class=\"indented tree-label\" ng-click=\"on_user_click(row.branch)\">\n" +
           "             {{row.branch[expandingProperty.field] || row.branch[expandingProperty]}}</span>\n" +
           "       </td>\n" +
           "       <td ng-repeat=\"col in colDefinitions\">\n" +
@@ -220,26 +219,53 @@
             /* sorting methods */
             scope.sortBy = function (col) {
             	if (col.sortDirection === "asc") {
-            	   scope.treeData.sort(sort_by(col.field, true, col.sortingType));
+                 sort_recursive(scope.treeData, col, true);
             	   col.sortDirection = "desc";
        	           col.sortingIcon = attrs.sortedDesc;
             	} else {
-            	   scope.treeData.sort(sort_by(col.field, false, col.sortingType));            		
+            	   sort_recursive(scope.treeData, col, false);
              	   col.sortDirection = "asc";
-        	       col.sortingIcon = attrs.sortedAsc;	
+        	       col.sortingIcon = attrs.sortedAsc;
             	}
           	    col.sorted = true;
-                resetSorting(col);              
-              };       
+                resetSorting(col);
+              };
 
-            var sort_by = function(field, descending, sortingType){
-               var key = sortingType === "number" ? function(x) {return parseFloat(x[field])} : function(x) {return (x[field] === null ? "" : x[field].toLowerCase())};
-               var direction = !descending ? 1 : -1;
-               return function (a, b) {
-                   return a = key(a), b = key(b), direction * ((a > b) - (b > a));
-               }; 
-            }            
-            
+            var sort_recursive = function(elements, col, descending) {
+              elements.sort(sort_by(col, descending));
+              for (var i = 0; i < elements.length; i++) {
+                  sort_recursive(elements[i].children, col, descending);
+              }
+            };
+
+            var sort_by = function(col, descending) {
+
+              var direction = !descending ? 1 : -1;
+
+              if (col.sortingType === "custom" && typeof col.sortingFunc === "function") {
+                return function (a, b) {
+                  return col.sortingFunc(a, b) * direction;
+                };
+              }
+
+              var key = function(x) {
+                return (x[col.field] === null ? "" : x[col.field].toLowerCase());
+              };
+
+              switch(col.sortingType) {
+                case "number":
+                  key = function(x) { return parseFloat(x[col.field]); };
+                  break;
+                case "date":
+                  key = function (x) { return new Date(x[col.field]); };
+                  break;
+              }
+
+              return function (a, b) {
+                return a = key(a), b = key(b), direction * ((a > b) - (b > a));
+              };
+            }
+
             var resetSorting = function(sortedCol) {
             	var arraySize = scope.colDefinitions.length;
             	for (var i= 0;i<arraySize;i++) {
@@ -648,7 +674,7 @@
         };
       };
     })
-  
+
   .filter('searchFor', function() {
 		return function(arr, filterString, expandingProperty, colDefinitions) {
 			var filtered = [];
@@ -660,11 +686,25 @@
 		                 filtered.push(item);
 		           }
 		      }
-		   } else {          
+		   } else {
+			  var ancestorStack = [];
+			  var currentLevel = 0;
               for (var i = 0; i < arr.length; i++) {
                  var item = arr[i];
+                 while (currentLevel >= item.level) {
+                	 throwAway = ancestorStack.pop();
+                	 currentLevel--;
+                 }
+                 ancestorStack.push(item);
+                 currentLevel = item.level;
                  if (include(item, filterString, expandingProperty, colDefinitions)) {
-                    filtered.push(item);
+                	for(var ancestorIndex = 0; ancestorIndex < ancestorStack.length; ancestorIndex++) {
+                		ancestor = ancestorStack[ancestorIndex];
+                		if(ancestor.visible){
+                			filtered.push(ancestor);
+                		}
+                	} 
+                    ancestorStack = [];
                  }
               }
 		   }
@@ -693,9 +733,9 @@
     			}        		
         	}
 			if (filterApplied) {
-			    return (includeItem && item.visible);
+			    return includeItem;
 			} else {
-				return item.visible;
+				return true;
 			}			
 		}
 		
@@ -707,7 +747,7 @@
 			    }
 			} else {
 			   if (item.branch[col.field] != null
-				  && item.branch[col.field].toLowerCase().indexOf(filterString) !== -1) {
+				  && item.branch[col.field].toLowerCase().indexOf(filterString.toLowerCase()) !== -1) {
 				   return true;
 			   }
 			}

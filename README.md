@@ -82,7 +82,7 @@ Example:
       {  field: "Description" },
       {
         field: "DemographicId",
-        displayName: "Demographic Id"
+        displayName: "Demographic Id",
 		sortable : true,
 		filterable : true
       },
@@ -99,7 +99,7 @@ Example:
       {
         field: "image",
         displayName: "Image",
-        cellTemplate: "<img ng-click="cellTemplateScope.click('example')" ng-src="{{ row.branch[col.field] }}" />",
+        cellTemplate: "<img ng-click='cellTemplateScope.click(\'example\')' ng-src='{{ row.branch[col.field] }}' />",
         cellTemplateScope: {
             click: function(data) {         // this works too: $scope.someMethod;
                 console.log(data);
