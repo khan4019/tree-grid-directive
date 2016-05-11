@@ -1,26 +1,37 @@
 {
-    "name": "angular-bootstrap-grid-tree",
-    "version": "0.1.0",
-    "description":"A Grid That display Tree Control for AngularJS, using CSS animation and Bootstrap style",
-    "main":["src/treeGrid.css","src/tree-grid-directive.js"],
-    "licence":"MIT",
-    "keywords":["angularjs","bootstrap","tree", "grid","widget"],
-    "authors":["Md Khan"],
-    "homepage"  :"https://github.com/okigan/tree-grid-directive",
-    "repository":{
-        "type":"git",
-        "url":"git://github.com/okigan/tree-grid-directive"
-    },
-    "ignore": [
-        "temp",
-        "test",
-        ".gitignore",
-        "bower.json",
-        "package.json",
-        "README.md"
-    ],
-    "dependencies": {
-        "angular": ">=1.1.16",
-        "bootstrap": ">=2.3"
-    }
+  "name": "angular-bootstrap-grid-tree",
+  "version": "0.1.0",
+  "description": "A Grid That display Tree Control for AngularJS, using CSS animation and Bootstrap style",
+  "main": [
+    "src/treeGrid.css",
+    "src/tree-grid-directive.js"
+  ],
+  "licence": "MIT",
+  "keywords": [
+    "angularjs",
+    "bootstrap",
+    "tree",
+    "grid",
+    "widget"
+  ],
+  "authors": [
+    "Md Khan"
+  ],
+  "homepage": "https://github.com/khan4019/tree-grid-directive",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/khan4019/tree-grid-directive.git"
+  },
+  "ignore": [
+    "temp",
+    "test",
+    ".gitignore",
+    "bower.json",
+    "package.json",
+    "README.md"
+  ],
+  "dependencies": {
+    "angular": ">=1.1.16",
+    "bootstrap": ">=2.3"
+  }
 }
