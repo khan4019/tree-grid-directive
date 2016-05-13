@@ -21,11 +21,13 @@ Install with Npm
 $ npm install angular-bootstrap-grid-tree
 
 ####OR:
-Include `src/treeGrid.css` and `src/tree-grid-directive.js` in your HTML file after Bootstrap and Angular. Just add the following
-
-      <tree-grid tree-data="tree_data"></tree-grid>
+Include `src/treeGrid.css` and `src/tree-grid-directive.js` in your HTML file after Bootstrap and Angular. 
 	  
 ####THEN	  
+
+Just add the following
+
+      <tree-grid tree-data="tree_data"></tree-grid>
 
 Include the module as a dependency in your application:
 
