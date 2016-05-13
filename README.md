@@ -10,11 +10,24 @@ Feel free to whatever you want to do with it.
 
 ### Mininum to start
 --------------------
+####EITHER: 
+
+Install with Bower
+
+$ bower install angular-bootstrap-grid-tree
+
+Install with Npm
+
+$ npm install angular-bootstrap-grid-tree
+
+####OR:
 Include `src/treeGrid.css` and `src/tree-grid-directive.js` in your HTML file after Bootstrap and Angular. Just add the following
 
       <tree-grid tree-data="tree_data"></tree-grid>
+	  
+####THEN	  
 
-Then include the module as a dependency in your application:
+Include the module as a dependency in your application:
 
 	angular.module('myApp', ['treeGrid'])
 
@@ -198,3 +211,8 @@ and then use it in `cellTemplate` as:
 and will work as expected.
 
 #### Inspired by [abn tree](https://github.com/nickperkinslondon/angular-bootstrap-nav-tree)
+
+## Release History
+ Version | Date | Change summary
+ ------|---------|--------------
+ 0.1.0 | May 13 2016 | initial release
