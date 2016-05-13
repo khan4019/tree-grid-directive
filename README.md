@@ -14,11 +14,11 @@ Feel free to whatever you want to do with it.
 
 Install with Bower
 
-$ bower install angular-bootstrap-grid-tree
+      $ bower install angular-bootstrap-grid-tree
 
 Install with Npm
 
-$ npm install angular-bootstrap-grid-tree
+      $ npm install angular-bootstrap-grid-tree
 
 ####OR:
 Include `src/treeGrid.css` and `src/tree-grid-directive.js` in your HTML file after Bootstrap and Angular. 
