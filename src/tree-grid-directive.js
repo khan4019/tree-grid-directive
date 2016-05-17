@@ -135,7 +135,7 @@
               if (scope.treeData.length) {
                 var _col_defs = [],
                   _firstRow = scope.treeData[0],
-                  _unwantedColumn = ['children', 'level', 'expanded', expandingProperty];
+                  _unwantedColumn = ['children', 'level', 'expanded', 'icons', expandingProperty];
                 for (var idx in _firstRow) {
                   if (_unwantedColumn.indexOf(idx) === -1) {
                     _col_defs.push({
@@ -364,12 +364,12 @@
                   branch.expanded = false;
                 }
                 if (!branch.children || branch.children.length === 0) {
-                  tree_icon = attrs.iconLeaf;
+                  tree_icon = branch.icons && branch.icons.iconLeaf || attrs.iconLeaf;
                 } else {
                   if (branch.expanded) {
-                    tree_icon = attrs.iconCollapse;
+                    tree_icon = branch.icons && branch.icons.iconCollapse || attrs.iconCollapse;
                   } else {
-                    tree_icon = attrs.iconExpand;
+                    tree_icon = branch.icons && branch.icons.iconExpand || attrs.iconExpand;
                   }
                 }
                 branch.level = level;
