@@ -147,6 +147,54 @@ need to redirect if a branch is selected.
             console.log('you clicked on', branch)
         }
 
+### Setting icons per row
+If the data contains different types, it may be useful to differentiate between them with different icons. Every row can set following three icons:
+
+* **iconLeaf** the icon that will be shown if the row is a leaf
+* **iconCollapse** the icon that will be shown if the row has children and is expanded
+* **iconExpand** the icon that will be shown if the row has children and is collapsed
+
+Every icon that **isn't** overriden will be the one defined at the tree-grid directive or the default one if none defined.
+
+Example:
+```html
+<tree-grid
+    tree-data     = "tree_data"
+    icon-leaf     = "icon-file"
+    icon-expand   = "icon-plus-sign"
+    icon-collapse = "icon-minus-sign"
+</tree-grid>
+```
+
+```javascript
+$scope.tree_data = [
+    {Name:"USA",Area:9826675,Population:318212000,TimeZone:"UTC -5 to -10",
+        children:[
+            {Name:"California", Area:423970,Population:38340000,TimeZone:"Pacific Time",
+                children:[
+                    {Name:"San Francisco", Area:231,Population:837442,TimeZone:"PST"},
+                    {Name:"Los Angeles", Area:503,Population:3904657,TimeZone:"PST"}
+                ]
+                icons: {
+                    iconLeaf: "fa fa-sun-o"
+                }
+            },
+            {Name:"Illinois", Area:57914,Population:12882135,TimeZone:"Central Time Zone",
+                children:[
+                    {Name:"Chicago", Area:234,Population:2695598,TimeZone:"CST"}
+                ]
+            }
+        ],
+        icons: {
+            iconLeaf: "fa fa-flag",
+            iconCollapse: "fa fa-folder-open",
+            iconExpand: "fa fa-folder"
+        }
+    },
+    {Name:"Texas",Area:268581,Population:26448193,TimeZone:"Mountain"}
+];
+```
+
 ### Specifying the template
 
 There are two ways to specify the template of the pagination controls directive:
