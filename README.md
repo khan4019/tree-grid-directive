@@ -203,7 +203,7 @@ If it is desired to expand the tree after a (successful) search, you need to mod
 </code>
 
 Full example (based on original template):
-```
+```html
 <div class="table-responsive">
    <table class="table tree-grid">
    <thead>
