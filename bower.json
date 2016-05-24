@@ -1,7 +1,7 @@
 {
   "name": "angular-bootstrap-grid-tree",
-  "version": "0.1.0",
-  "description": "A Grid That display Tree Control for AngularJS, using CSS animation and Bootstrap style",
+  "version": "0.2.0",
+  "description": "AngularJS directive for a tree grid, using Bootstrap",
   "main": [
     "src/treeGrid.css",
     "src/tree-grid-directive.js"
