@@ -265,4 +265,5 @@ and will work as expected.
 ## Release History
  Version | Date | Change summary
  ------|---------|--------------
- 0.1.0 | May 13 2016 | initial release
+ 0.2.0 | May 24 2016 | synchronise NPM and bower releases
+ 0.1.0 | May 13 2016 | initial NPM release
