@@ -124,7 +124,8 @@ Example:
     ];
 
 **expanding_property:** this is the property of the objects in `tree_data` where you want to put the ability to expand and collapse.
-This accepts an array of the same format as col_defs, allowing for sorting & filtering on the expanding field.
+This accepts an array of the same format as col_defs, allowing for sorting & filtering on the expanding field. This now includes the ability
+to provide a cellTemplate (but not a cellTemplateScope).
 
 **my_tree:** you can use `tree-control` to use expand all and collapse all. Check it out in the link provided for demo.
 
@@ -266,7 +267,8 @@ Later, execute the query using promises and update the `tree_data` value with th
 
 If for any reason you want to use a custom HTML to show a specific cell, for showing an image, colorpicker,
 or something else, you can use the `cellTemplate` option in the `col-defs` array, just use
-`{{ row.branch[col.field] }}` as the placeholder for the value of the cell anywhere in the HTML.
+`{{ row.branch[col.field] }}` as the placeholder for the value of the cell anywhere in the HTML - use `{{ row.branch[expandingProperty.field] }}`
+if providing a template for the expanding property..
 
 Example:
 

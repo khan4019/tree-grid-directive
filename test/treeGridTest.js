@@ -153,7 +153,7 @@
                 "Population": 718212004,
                 "TimeZone": "BST"
             }
-            ];
+        ];
 
 
         var myTreeData = getTree(rawTreeData, 'DemographicId', 'ParentId');
@@ -163,29 +163,31 @@
         $scope.expanding_property = {
             field: "Name",
             displayName: "Demographic Name",
-			sortable : true,
-			filterable: true
+            sortable: true,
+            filterable: true,
+            cellTemplate: "<i>{{row.branch[expandingProperty.field]}}</i>"
         };
         $scope.col_defs = [
             {
                 field: "Description",
-				sortable : true,										
-				sortingType : "string"
+                sortable: true,
+                sortingType: "string"
             },
             {
                 field: "Area",
-				sortable : true,										
-				sortingType : "number",
-				filterable: true
+                sortable: true,
+                sortingType: "number",
+                filterable: true
             },
             {
                 field: "Population",
-				sortable : true,										
-				sortingType : "number"
+                sortable: true,
+                sortingType: "number"
             },
             {
                 field: "TimeZone",
-                displayName: "Time Zone"
+                displayName: "Time Zone",
+                cellTemplate: "<strong>{{row.branch[col.field]}}</strong>"
             }
         ];
         $scope.my_tree_handler = function (branch) {
@@ -227,7 +229,8 @@
 
             for (var i = 0; i < rootIds.length; i++) {
                 tree.push(treeObjs[rootIds[i]]);
-            };
+            }
+            ;
 
             return tree;
         }
