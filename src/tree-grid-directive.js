@@ -676,7 +676,7 @@
     })
 
   .filter('searchFor', function() {
-		return function(arr, filterString, expandingProperty, colDefinitions) {
+		return function(arr, filterString, expandingProperty, colDefinitions, expand) {
 			var filtered = [];
 			//only apply filter for strings 3 characters long or more
 		   if (!filterString || filterString.length < 3) {		     
@@ -701,6 +701,8 @@
                 	for(var ancestorIndex = 0; ancestorIndex < ancestorStack.length; ancestorIndex++) {
                 		ancestor = ancestorStack[ancestorIndex];
                 		if(ancestor.visible){
+                            if (expand)
+                                ancestor.branch.expanded=true;
                 			filtered.push(ancestor);
                 		}
                 	} 

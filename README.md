@@ -195,6 +195,41 @@ $scope.tree_data = [
 ];
 ```
 
+### Expanding tree after search
+If it is desired to expand the tree after a (successful) search, you need to modify the template and add a **true** to the filter parameters.
+
+<code>
+&lt;tr ng-repeat="row in tree_rows | searchFor:$parent.filterString:expandingProperty:colDefinitions:<b>true</b> track by row.branch.uid"&gt;
+</code>
+
+Full example (based on original template):
+```html
+<div class="table-responsive">
+   <table class="table tree-grid">
+   <thead>
+     <tr>
+       <th><a ng-if="expandingProperty.sortable" ng-click="sortBy(expandingProperty)">{{expandingProperty.displayName || expandingProperty.field || expandingProperty}}</a><span ng-if="!expandingProperty.sortable">{{expandingProperty.displayName || expandingProperty.field || expandingProperty}}</span><i ng-if="expandingProperty.sorted" class="{{expandingProperty.sortingIcon}} pull-right"></i></th>
+       <th ng-repeat="col in colDefinitions"><a ng-if="col.sortable" ng-click="sortBy(col)">{{col.displayName || col.field}}</a><span ng-if="!col.sortable">{{col.displayName || col.field}}</span><i ng-if="col.sorted" class="{{col.sortingIcon}} pull-right"></i></th>
+     </tr>
+   </thead>
+   <tbody>
+     <tr ng-repeat="row in tree_rows | searchFor:$parent.filterString:expandingProperty:colDefinitions:true track by row.branch.uid"
+       ng-class="'level-' + {{ row.level }} + (row.branch.selected ? ' active':'')" class="tree-grid-row">
+       <td><a ng-click="user_clicks_branch(row.branch)"><i ng-class="row.tree_icon"
+              ng-click="row.branch.expanded = !row.branch.expanded"
+              class="indented tree-icon"></i></a><span class="indented tree-label" ng-click="on_user_click(row.branch)">
+             {{row.branch[expandingProperty.field] || row.branch[expandingProperty]}}</span>
+       </td>
+       <td ng-repeat="col in colDefinitions">
+         <div ng-if="col.cellTemplate" compile="col.cellTemplate" cell-template-scope="col.cellTemplateScope"></div>
+         <div ng-if="!col.cellTemplate">{{row.branch[col.field]}}</div>
+       </td>
+     </tr>
+   </tbody>
+ </table>
+</div>
+```
+
 ### Specifying the template
 
 There are two ways to specify the template of the pagination controls directive:
