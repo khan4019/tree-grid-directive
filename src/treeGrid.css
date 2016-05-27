@@ -7,11 +7,14 @@
  */
 .tree-grid-animate-enter,
 .tree-grid-row.ng-enter {
-	transition : 200ms linear all;
-	position   : relative;
-	display    : block;
-	opacity    : 0;
-	max-height : 0;
+    -moz-transition: 200ms linear all;
+    -o-transition: 200ms linear all;
+    -webkit-transition: 200ms linear all;
+    transition: 200ms linear all;
+    position: relative;
+    display: block;
+    opacity: 0;
+    max-height: 0;
 }
 
 .tree-grid-animate-enter.tree-grid-animate-enter-active,
@@ -22,12 +25,15 @@
 
 .tree-grid-animate-leave,
 .tree-grid-row.ng-leave {
-	transition : 200ms linear all;
-	position   : relative;
-	display    : block;
-	height     : 30px;
-	max-height : 30px;
-	opacity    : 1;
+    -moz-transition: 200ms linear all;
+	-o-transition: 200ms linear all;
+	-webkit-transition: 200ms linear all;
+    transition: 200ms linear all;
+    position: relative;
+    display: block;
+    height: 30px;
+    max-height: 30px;
+    opacity: 1;
 }
 
 .tree-grid-animate-leave.tree-grid-animate-leave-active,
