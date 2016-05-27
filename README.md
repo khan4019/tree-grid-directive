@@ -10,11 +10,26 @@ Feel free to whatever you want to do with it.
 
 ### Mininum to start
 --------------------
-Include `src/treeGrid.css` and `src/tree-grid-directive.js` in your HTML file after Bootstrap and Angular. Just add the following
+####EITHER: 
+
+Install with Bower
+
+      $ bower install angular-bootstrap-grid-tree
+
+Install with Npm
+
+      $ npm install angular-bootstrap-grid-tree
+
+####OR:
+Include `src/treeGrid.css` and `src/tree-grid-directive.js` in your HTML file after Bootstrap and Angular. 
+	  
+####THEN	  
+
+Just add the following
 
       <tree-grid tree-data="tree_data"></tree-grid>
 
-Then include the module as a dependency in your application:
+Include the module as a dependency in your application:
 
 	angular.module('myApp', ['treeGrid'])
 
@@ -109,7 +124,8 @@ Example:
     ];
 
 **expanding_property:** this is the property of the objects in `tree_data` where you want to put the ability to expand and collapse.
-This accepts an array of the same format as col_defs, allowing for sorting & filtering on the expanding field.
+This accepts an array of the same format as col_defs, allowing for sorting & filtering on the expanding field. This now includes the ability
+to provide a cellTemplate (but not a cellTemplateScope).
 
 **my_tree:** you can use `tree-control` to use expand all and collapse all. Check it out in the link provided for demo.
 
@@ -131,6 +147,89 @@ need to redirect if a branch is selected.
         $scope.my_tree_handler = function(branch){
             console.log('you clicked on', branch)
         }
+
+### Setting icons per row
+If the data contains different types, it may be useful to differentiate between them with different icons. Every row can set following three icons:
+
+* **iconLeaf** the icon that will be shown if the row is a leaf
+* **iconCollapse** the icon that will be shown if the row has children and is expanded
+* **iconExpand** the icon that will be shown if the row has children and is collapsed
+
+Every icon that **isn't** overriden will be the one defined at the tree-grid directive or the default one if none defined.
+
+Example:
+```html
+<tree-grid
+    tree-data     = "tree_data"
+    icon-leaf     = "icon-file"
+    icon-expand   = "icon-plus-sign"
+    icon-collapse = "icon-minus-sign"
+</tree-grid>
+```
+
+```javascript
+$scope.tree_data = [
+    {Name:"USA",Area:9826675,Population:318212000,TimeZone:"UTC -5 to -10",
+        children:[
+            {Name:"California", Area:423970,Population:38340000,TimeZone:"Pacific Time",
+                children:[
+                    {Name:"San Francisco", Area:231,Population:837442,TimeZone:"PST"},
+                    {Name:"Los Angeles", Area:503,Population:3904657,TimeZone:"PST"}
+                ]
+                icons: {
+                    iconLeaf: "fa fa-sun-o"
+                }
+            },
+            {Name:"Illinois", Area:57914,Population:12882135,TimeZone:"Central Time Zone",
+                children:[
+                    {Name:"Chicago", Area:234,Population:2695598,TimeZone:"CST"}
+                ]
+            }
+        ],
+        icons: {
+            iconLeaf: "fa fa-flag",
+            iconCollapse: "fa fa-folder-open",
+            iconExpand: "fa fa-folder"
+        }
+    },
+    {Name:"Texas",Area:268581,Population:26448193,TimeZone:"Mountain"}
+];
+```
+
+### Expanding tree after search
+If it is desired to expand the tree after a (successful) search, you need to modify the template and add a **true** to the filter parameters.
+
+<code>
+&lt;tr ng-repeat="row in tree_rows | searchFor:$parent.filterString:expandingProperty:colDefinitions:<b>true</b> track by row.branch.uid"&gt;
+</code>
+
+Full example (based on original template):
+```html
+<div class="table-responsive">
+   <table class="table tree-grid">
+   <thead>
+     <tr>
+       <th><a ng-if="expandingProperty.sortable" ng-click="sortBy(expandingProperty)">{{expandingProperty.displayName || expandingProperty.field || expandingProperty}}</a><span ng-if="!expandingProperty.sortable">{{expandingProperty.displayName || expandingProperty.field || expandingProperty}}</span><i ng-if="expandingProperty.sorted" class="{{expandingProperty.sortingIcon}} pull-right"></i></th>
+       <th ng-repeat="col in colDefinitions"><a ng-if="col.sortable" ng-click="sortBy(col)">{{col.displayName || col.field}}</a><span ng-if="!col.sortable">{{col.displayName || col.field}}</span><i ng-if="col.sorted" class="{{col.sortingIcon}} pull-right"></i></th>
+     </tr>
+   </thead>
+   <tbody>
+     <tr ng-repeat="row in tree_rows | searchFor:$parent.filterString:expandingProperty:colDefinitions:true track by row.branch.uid"
+       ng-class="'level-' + {{ row.level }} + (row.branch.selected ? ' active':'')" class="tree-grid-row">
+       <td><a ng-click="user_clicks_branch(row.branch)"><i ng-class="row.tree_icon"
+              ng-click="row.branch.expanded = !row.branch.expanded"
+              class="indented tree-icon"></i></a><span class="indented tree-label" ng-click="on_user_click(row.branch)">
+             {{row.branch[expandingProperty.field] || row.branch[expandingProperty]}}</span>
+       </td>
+       <td ng-repeat="col in colDefinitions">
+         <div ng-if="col.cellTemplate" compile="col.cellTemplate" cell-template-scope="col.cellTemplateScope"></div>
+         <div ng-if="!col.cellTemplate">{{row.branch[col.field]}}</div>
+       </td>
+     </tr>
+   </tbody>
+ </table>
+</div>
+```
 
 ### Specifying the template
 
@@ -168,7 +267,8 @@ Later, execute the query using promises and update the `tree_data` value with th
 
 If for any reason you want to use a custom HTML to show a specific cell, for showing an image, colorpicker,
 or something else, you can use the `cellTemplate` option in the `col-defs` array, just use
-`{{ row.branch[col.field] }}` as the placeholder for the value of the cell anywhere in the HTML.
+`{{ row.branch[col.field] }}` as the placeholder for the value of the cell anywhere in the HTML - use `{{ row.branch[expandingProperty.field] }}`
+if providing a template for the expanding property..
 
 Example:
 
@@ -198,3 +298,9 @@ and then use it in `cellTemplate` as:
 and will work as expected.
 
 #### Inspired by [abn tree](https://github.com/nickperkinslondon/angular-bootstrap-nav-tree)
+
+## Release History
+ Version | Date | Change summary
+ ------|---------|--------------
+ 0.2.0 | May 24 2016 | synchronise NPM and bower releases
+ 0.1.0 | May 13 2016 | initial NPM release
