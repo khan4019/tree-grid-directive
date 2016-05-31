@@ -123,6 +123,8 @@ Example:
       }
     ];
 
+Should you wish to define the col_defs dynamically (e.g. if the column names are coming from a service) you can follow the instructions specified in [this issue] (https://github.com/khan4019/tree-grid-directive/issues/51).	
+	
 **expanding_property:** this is the property of the objects in `tree_data` where you want to put the ability to expand and collapse.
 This accepts an array of the same format as col_defs, allowing for sorting & filtering on the expanding field. This now includes the ability
 to provide a cellTemplate (but not a cellTemplateScope).
