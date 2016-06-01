@@ -16,15 +16,13 @@
                     "   <tbody>\n" +
                     "     <tr ng-repeat=\"row in tree_rows | searchFor:$parent.filterString:expandingProperty:colDefinitions track by row.branch.uid\"\n" +
                     "       ng-class=\"'level-' + {{ row.level }} + (row.branch.selected ? ' active':'')\" class=\"tree-grid-row\" role=\"row\" aria-level=\"{{row.level}}\">\n" +
-                    "       <td role=\"rowheader\" ng-if=\"row.branch.children && row.branch.children.length > 0\">\n" +
-                    "              <a ng-click=\"user_clicks_branch(row.branch)\" aria-expanded=\"{{row.branch.expanded}}\" role=\"button\" class=\"indented\"><i ng-class=\"row.tree_icon\" class=\"tree-icon\"></i></a>\n" +
-                    "              <span ng-if=\"expandingProperty.cellTemplate\" class=\"indented\" ng-click=\"on_user_click(row.branch)\" compile=\"expandingProperty.cellTemplate\"></span>\n" +
-                    "              <span ng-if=\"!expandingProperty.cellTemplate\" class=\"indented\" ng-click=\"on_user_click(row.branch)\">{{row.branch[expandingProperty.field] || row.branch[expandingProperty]}}</span>\n" +
-                    "       </td>\n" +
-                    "       <td role=\"rowheader\" ng-if=\"!row.branch.children || row.branch.children.length === 0\">\n" +
-                    "              <i ng-class=\"row.tree_icon\" class=\"indented\"></i>\n" +
-                    "              <span ng-if=\"expandingProperty.cellTemplate\" class=\"indented\" ng-click=\"on_user_click(row.branch)\" compile=\"expandingProperty.cellTemplate\"></span>\n" +
-                    "              <span ng-if=\"!expandingProperty.cellTemplate\" class=\"indented\" ng-click=\"on_user_click(row.branch)\">{{row.branch[expandingProperty.field] || row.branch[expandingProperty]}}</span>\n" +
+                    "       <td role=\"rowheader\">\n" +
+                    "              <a ng-if=\"row.branch.children && row.branch.children.length > 0\" href=\"javascript:void(0);\" ng-click=\"user_clicks_branch(row.branch)\" aria-expanded=\"{{row.branch.expanded}}\" role=\"button\" class=\"indented\"><i ng-class=\"row.tree_icon\" class=\"tree-icon\"></i></a>\n" +
+                    "              <i ng-if=\"!row.branch.children || row.branch.children.length === 0\" ng-class=\"row.tree_icon\" class=\"indented\"></i>\n" +
+                    "              <span ng-if=\"expandingProperty.cellTemplate && user_click_exists()\" class=\"indented\" ng-click=\"on_user_click(row.branch)\" compile=\"expandingProperty.cellTemplate\"></span>\n" +
+                    "              <span ng-if=\"!expandingProperty.cellTemplate && user_click_exists()\" class=\"indented\" ng-click=\"on_user_click(row.branch)\">{{row.branch[expandingProperty.field] || row.branch[expandingProperty]}}</span>\n" +
+                    "              <span ng-if=\"expandingProperty.cellTemplate && !user_click_exists()\" class=\"indented\" compile=\"expandingProperty.cellTemplate\"></span>\n" +
+                    "              <span ng-if=\"!expandingProperty.cellTemplate && !user_click_exists()\" class=\"indented\">{{row.branch[expandingProperty.field] || row.branch[expandingProperty]}}</span>\n" +
                     "       </td>\n" +
                     "       <td ng-repeat=\"col in colDefinitions\">\n" +
                     "         <div ng-if=\"col.cellTemplate\" compile=\"col.cellTemplate\" cell-template-scope=\"col.cellTemplateScope\"></div>\n" +
@@ -113,6 +111,11 @@
                             alert('No data was defined for the tree, please define treeData!');
                             return;
                         }
+
+                        scope.user_click_exists = function () {
+                            var exists = angular.isDefined(attrs.onClick);
+                            return exists;
+                        };
 
                         var getExpandingProperty = function getExpandingProperty() {
                             if (attrs.expandOn) {
