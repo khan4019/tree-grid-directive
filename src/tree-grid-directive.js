@@ -36,16 +36,6 @@
                     "</div>\n" +
                     "");
             }]);
-    /*
-                <td role="rowheader" ng-if="row.branch.children && row.branch.children.length > 0">
-                    <a ng-click="user_clicks_branch(row.branch)" aria-expanded="{{row.branch.expanded}}" role="button" tabindex="0" class="indented"><i ng-class="row.tree_icon" class="tree-icon"></i></a>
-                    <span class="indented">{{row.branch[expandingProperty.field] || row.branch[expandingProperty]}}</span>
-                </td>
-                <td role="rowheader" ng-if="!row.branch.children || row.branch.children.length === 0">
-                    <i ng-class="row.tree_icon" class="indented"></i>
-                    <span class="indented">{{row.branch[expandingProperty.field] || row.branch[expandingProperty]}}</span>
-                </td>
-     */
 
     angular
         .module('treeGrid', [
