@@ -391,16 +391,12 @@
                                     _results = [];
                                     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
                                         child = _ref[_i];
-                                        child_visible = visible && branch.expanded;
+                                        child_visible = visible && (branch.expanded || branch.level < expand_level);
                                         _results.push(add_branch_to_list(level + 1, child, child_visible));
                                     }
                                     return _results;
                                 }
                             };
-                            for_each_branch(function (b, level) {
-                                b.level = level;
-                                return b.expanded = b.level < expand_level;
-                            });
                             _ref = scope.treeData;
                             _results = [];
                             for (_i = 0, _len = _ref.length; _i < _len; _i++) {
