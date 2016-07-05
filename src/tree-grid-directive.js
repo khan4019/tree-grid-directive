@@ -397,6 +397,10 @@
                                     return _results;
                                 }
                             };
+                            for_each_branch(function (b, level) {
+                                b.level = level;
+                                return b.expanded = b.level < expand_level;
+                            });
                             _ref = scope.treeData;
                             _results = [];
                             for (_i = 0, _len = _ref.length; _i < _len; _i++) {
