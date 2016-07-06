@@ -71,7 +71,8 @@ If you want more customization, you can use the following options:
         on-select     = "my_tree_handler(branch)"
         on-click      = "my_tree_handler(branch)"
         template-url  = "path/to/treegrid/template.html"
-        expand-level  = "2">
+        expand-level  = "2"
+        expand-to     = "expand_to">
     </tree-grid>
 
 **col_defs:** is an array of objects that allows you to customized column header.
@@ -85,11 +86,11 @@ Valid properties are:
 	                    you want to show images, for instance.
 	cellTemplateScope:  Used to pass the controllers methods you want to be
 	                    used inside the cell template.
-	sortable:  			The user can sort by the values of this field	
-	sortingType: 		The type of the field, for sorting or filtering purposes.
-						Possible values are "number", for numeric sorting, or
-						"string" for alphabetic sorting (this is the default)
-	filterable:			This field will be searched when filtering
+	sortable:           The user can sort by the values of this field	
+	sortingType:        The type of the field, for sorting or filtering purposes.
+	                    Possible values are "number", for numeric sorting, or
+	                    "string" for alphabetic sorting (this is the default)
+	filterable:         This field will be searched when filtering
 
 Example:
 
@@ -135,7 +136,9 @@ to provide a cellTemplate (but not a cellTemplateScope).
 
 **template-url:** URL for the custom template to be used.
 
-**expand-level:** depth of the tree, you want to expand while loading.
+**expand-level:** depth of the tree, you want to expand while loading - default now set to 0 i.e. tree entirely collapsed. Note that you cannot collapse the tree below this depth, once set.
+
+**expand-to:** the `$rootscope` field the directive will watch for programmatic expansion. When changed, the directive will search the tree for the expandingproperty with the same value, and expand the tree to that point. All other branches will be collapsed.
 
 **on-select:** a click handler while you are clicking on +/- icons.
 

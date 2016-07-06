@@ -87,7 +87,8 @@
                         onSelect: '&',
                         onClick: '&',
                         initialSelection: '@',
-                        treeControl: '='
+                        treeControl: '=',
+                        expandTo: '='
                     },
                     link: function (scope, element, attrs) {
                         var error, expandingProperty, expand_all_parents, expand_level, for_all_ancestors, for_each_branch, get_parent, n, on_treeData_change, select_branch, selected_branch, tree;
@@ -103,7 +104,7 @@
                         attrs.iconLeaf = attrs.iconLeaf ? attrs.iconLeaf : 'icon-file  glyphicon glyphicon-file  fa fa-file';
                         attrs.sortedAsc = attrs.sortedAsc ? attrs.sortedAsc : 'icon-file  glyphicon glyphicon-chevron-up  fa angle-up';
                         attrs.sortedDesc = attrs.sortedDesc ? attrs.sortedDesc : 'icon-file  glyphicon glyphicon-chevron-down  fa angle-down';
-                        attrs.expandLevel = attrs.expandLevel ? attrs.expandLevel : '3';
+                        attrs.expandLevel = attrs.expandLevel ? attrs.expandLevel : '0';
                         expand_level = parseInt(attrs.expandLevel, 10);
 
                         if (!scope.treeData) {
@@ -391,7 +392,7 @@
                                     _results = [];
                                     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
                                         child = _ref[_i];
-                                        child_visible = visible && branch.expanded;
+                                        child_visible = visible && (branch.expanded || branch.level < expand_level);
                                         _results.push(add_branch_to_list(level + 1, child, child_visible));
                                     }
                                     return _results;
@@ -407,6 +408,21 @@
                         };
 
                         scope.$watch('treeData', on_treeData_change, true);
+
+                        on_expandTo_change = function () {
+                            if (angular.isDefined((scope.expandTo))) {
+                                for_each_branch(function (b) {
+                                    b.expanded = false;
+                                    if (b[expandingProperty.field] === scope.expandTo || b[expandingProperty] === scope.expandTo) {
+                                        return $timeout(function () {
+                                            return select_branch(b);
+                                        });
+                                    }
+                                });
+                            }
+                        };
+
+                        scope.$watch('expandTo', on_expandTo_change, true);
 
                         if (attrs.initialSelection != null) {
                             for_each_branch(function (b) {
