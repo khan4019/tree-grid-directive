@@ -252,7 +252,7 @@
                             }
 
                             var key = function (x) {
-                                return (x[col.field] === null ? "" : x[col.field].toLowerCase());
+                                return ((x[col.field] === null || x[col.field] === undefined) ? "" : x[col.field].toLowerCase());
                             };
 
                             switch (col.sortingType) {
