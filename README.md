@@ -10,7 +10,7 @@ Feel free to whatever you want to do with it.
 
 ### Mininum to start
 --------------------
-####EITHER: 
+#### EITHER: 
 
 Install with Bower
 
@@ -20,10 +20,10 @@ Install with Npm
 
       $ npm install angular-bootstrap-grid-tree
 
-####OR:
+#### OR:
 Include `src/treeGrid.css` and `src/tree-grid-directive.js` in your HTML file after Bootstrap and Angular. 
 	  
-####THEN	  
+#### THEN	  
 
 Just add the following
 
