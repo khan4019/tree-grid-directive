@@ -102,6 +102,7 @@
                         attrs.iconExpand = attrs.iconExpand ? attrs.iconExpand : 'icon-plus  glyphicon glyphicon-plus  fa fa-plus';
                         attrs.iconCollapse = attrs.iconCollapse ? attrs.iconCollapse : 'icon-minus glyphicon glyphicon-minus fa fa-minus';
                         attrs.iconLeaf = attrs.iconLeaf ? attrs.iconLeaf : 'icon-file  glyphicon glyphicon-file  fa fa-file';
+                        attrs.iconRoot = attrs.iconRoot ? attrs.iconRoot : '';
                         attrs.sortedAsc = attrs.sortedAsc ? attrs.sortedAsc : 'icon-file  glyphicon glyphicon-chevron-up  fa angle-up';
                         attrs.sortedDesc = attrs.sortedDesc ? attrs.sortedDesc : 'icon-file  glyphicon glyphicon-chevron-down  fa angle-down';
                         attrs.expandLevel = attrs.expandLevel ? attrs.expandLevel : '0';
@@ -371,7 +372,11 @@
                                     branch.expanded = false;
                                 }
                                 if (!branch.children || branch.children.length === 0) {
-                                    tree_icon = branch.icons && branch.icons.iconLeaf || attrs.iconLeaf;
+                                    if ((branch.icons && branch.icons.iconRoot || attrs.iconRoot) && branch.parent_uid == null) {
+                                        tree_icon = branch.icons && branch.icons.iconRoot || attrs.iconRoot;
+                                    } else {
+                                        tree_icon = branch.icons && branch.icons.iconLeaf || attrs.iconLeaf;
+                                    }
                                 } else {
                                     if (branch.expanded) {
                                         tree_icon = branch.icons && branch.icons.iconCollapse || attrs.iconCollapse;
