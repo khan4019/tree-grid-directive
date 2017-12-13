@@ -283,6 +283,11 @@
                                     col.sortDirection = "none";
                                 }
                             }
+                            // Reset sorting on expanding column
+                            if (scope.expandingProperty && scope.expandingProperty.field != sortedCol.field) {
+                                scope.expandingProperty.sorted = false;
+                                scope.expandingProperty.sortDirection = 'none';
+                            }
                         }
 
                         /* end of sorting methods */
