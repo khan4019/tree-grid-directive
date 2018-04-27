@@ -404,6 +404,12 @@
                                 root_branch = _ref[_i];
                                 _results.push(add_branch_to_list(1, root_branch, true));
                             }
+							if (scope.treeData.expandAll && scope.treeData.init) {
+								for_each_branch(function (b, level) {
+									return b.expanded = true;
+								});
+								scope.$root.$broadcast('expandedInit');
+							}
                             return _results;
                         };
 
@@ -442,10 +448,11 @@
                             if (angular.isObject(scope.treeControl)) {
                                 tree = scope.treeControl;
                                 tree.expand_all = function () {
-                                    return for_each_branch(function (b, level) {
-                                        return b.expanded = true;
-                                    });
-                                };
+									scope.$root.$broadcast('expandedInit');
+									return for_each_branch(function (b, level) {
+										return b.expanded = true;
+									});
+								};
                                 tree.collapse_all = function () {
                                     return for_each_branch(function (b, level) {
                                         return b.expanded = false;
