@@ -16,7 +16,7 @@
                     "   <tbody>\n" +
                     "     <tr ng-repeat=\"row in tree_rows | searchFor:$parent.filterString:expandingProperty:colDefinitions track by row.branch.uid\"\n" +
                     "       ng-class=\"'level-' + {{ row.level }} + (row.branch.selected ? ' active':'')\" class=\"tree-grid-row\">\n" +
-                    "       <td><a ng-click=\"user_clicks_branch(row.branch)\"><i ng-class=\"row.tree_icon\"\n" +
+                    "       <td><a ng-if=\"row.tree_icon && row.tree_icon !== 'null'\" ng-click=\"user_clicks_branch(row.branch)\"><i ng-class=\"row.tree_icon\"\n" +
                     "              ng-click=\"row.branch.expanded = !row.branch.expanded\"\n" +
                     "              class=\"indented tree-icon\"></i></a><span ng-if=\"expandingProperty.cellTemplate\" class=\"indented tree-label\" " +
                     "              ng-click=\"on_user_click(row.branch)\" compile=\"expandingProperty.cellTemplate\"></span>" +
@@ -72,7 +72,7 @@
             '$timeout',
             'treegridTemplate',
             function ($timeout,
-                      treegridTemplate) {
+                treegridTemplate) {
 
                 return {
                     restrict: 'E',
@@ -102,8 +102,9 @@
                         attrs.iconExpand = attrs.iconExpand ? attrs.iconExpand : 'icon-plus  glyphicon glyphicon-plus  fa fa-plus';
                         attrs.iconCollapse = attrs.iconCollapse ? attrs.iconCollapse : 'icon-minus glyphicon glyphicon-minus fa fa-minus';
                         attrs.iconLeaf = attrs.iconLeaf ? attrs.iconLeaf : 'icon-file  glyphicon glyphicon-file  fa fa-file';
-                        attrs.sortedAsc = attrs.sortedAsc ? attrs.sortedAsc : 'icon-file  glyphicon glyphicon-chevron-up  fa angle-up';
-                        attrs.sortedDesc = attrs.sortedDesc ? attrs.sortedDesc : 'icon-file  glyphicon glyphicon-chevron-down  fa angle-down';
+                        attrs.iconRoot = attrs.iconRoot ? attrs.iconRoot : '';
+                        attrs.sortedAsc = attrs.sortedAsc ? attrs.sortedAsc : 'icon-file  glyphicon glyphicon-chevron-up  fa fa-angle-up';
+                        attrs.sortedDesc = attrs.sortedDesc ? attrs.sortedDesc : 'icon-file  glyphicon glyphicon-chevron-down  fa fa-angle-down';
                         attrs.expandLevel = attrs.expandLevel ? attrs.expandLevel : '0';
                         expand_level = parseInt(attrs.expandLevel, 10);
 
@@ -282,6 +283,11 @@
                                     col.sortDirection = "none";
                                 }
                             }
+                            // Reset sorting on expanding column
+                            if (scope.expandingProperty && scope.expandingProperty.field != sortedCol.field) {
+                                scope.expandingProperty.sorted = false;
+                                scope.expandingProperty.sortDirection = 'none';
+                            }
                         }
 
                         /* end of sorting methods */
@@ -371,7 +377,11 @@
                                     branch.expanded = false;
                                 }
                                 if (!branch.children || branch.children.length === 0) {
-                                    tree_icon = branch.icons && branch.icons.iconLeaf || attrs.iconLeaf;
+                                    if ((branch.icons && branch.icons.iconRoot || attrs.iconRoot) && branch.parent_uid == null) {
+                                        tree_icon = branch.icons && branch.icons.iconRoot || attrs.iconRoot;
+                                    } else {
+                                        tree_icon = branch.icons && branch.icons.iconLeaf || attrs.iconLeaf;
+                                    }
                                 } else {
                                     if (branch.expanded) {
                                         tree_icon = branch.icons && branch.icons.iconCollapse || attrs.iconCollapse;
