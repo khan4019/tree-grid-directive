@@ -14,7 +14,7 @@
                     "     </tr>\n" +
                     "   </thead>\n" +
                     "   <tbody>\n" +
-                    "     <tr ng-repeat=\"row in tree_rows | searchFor:$parent.filterString:expandingProperty:colDefinitions track by row.branch.uid\"\n" +
+                    "     <tr ng-repeat=\"row in tree_rows | searchFor:$parent.filterString:expandingProperty:colDefinitions | limitTo:itemsPerPage:paginationBegin track by row.branch.uid\"\n" +
                     "       ng-class=\"'level-' + {{ row.level }} + (row.branch.selected ? ' active':'')\" class=\"tree-grid-row\">\n" +
                     "       <td><a ng-click=\"user_clicks_branch(row.branch)\"><i ng-class=\"row.tree_icon\"\n" +
                     "              ng-click=\"row.branch.expanded = !row.branch.expanded\"\n" +
@@ -30,6 +30,11 @@
                     "     </tr>\n" +
                     "   </tbody>\n" +
                     " </table>\n" +
+                    " <div class=\"tree-pagination\" ng-if=\"itemsPerPage\">\n" +
+                    "   <span>{{ paginationBegin + 1 }}-{{ paginationEnd }} of {{ treeData.length }}</span>\n" +
+                    "   <i class=\"glyphicon glyphicon-chevron-left fa fa-chevron-left\" ng-click=\"previous()\" ng-class=\"{ disabled: disabledPrevious }\"></i>\n" +
+                    "   <i class=\"glyphicon glyphicon-chevron-right fa fa-chevron-right\" ng-click=\"next()\" ng-class=\"{ disabled: disabledNext }\"></i>\n" +
+                    " </div>\n" +
                     "</div>\n" +
                     "");
             }]);
@@ -89,15 +94,42 @@
                         initialSelection: '@',
                         noAnimation: '=',
                         treeControl: '=',
+                        itemsPerPage: '=',
                         expandTo: '='
                     },
                     link: function (scope, element, attrs) {
-                        var error, expandingProperty, expand_all_parents, expand_level, for_all_ancestors, for_each_branch, get_parent, n, on_treeData_change, select_branch, selected_branch, tree;
+                        var error, expandingProperty, expand_all_parents, expand_level, for_all_ancestors, for_each_branch, get_parent, n, on_treeData_change, select_branch, selected_branch, tree, updatePagination;
 
                         error = function (s) {
                             console.log('ERROR:' + s);
                             debugger;
                             return void 0;
+                        };
+
+                        updatePagination = function () {
+                            scope.paginationBegin = scope.page * scope.itemsPerPage;
+                            scope.paginationEnd = Math.min(scope.paginationBegin + scope.itemsPerPage, scope.treeData.length)
+                            scope.disabledPrevious = scope.page === 0;
+                            scope.disabledNext = scope.paginationBegin + scope.itemsPerPage >= scope.treeData.length;
+                        };
+
+                        if (scope.itemsPerPage) {
+                            scope.page = 0;
+                            updatePagination();
+                        }
+
+                        scope.previous = function () {
+                            if (!scope.disabledPrevious) {
+                                scope.page--;
+                                updatePagination();
+                            }
+                        };
+
+                        scope.next = function () {
+                            if (!scope.disabledNext) {
+                                scope.page++;
+                                updatePagination();
+                            }
                         };
 
                         attrs.iconExpand = attrs.iconExpand ? attrs.iconExpand : 'icon-plus  glyphicon glyphicon-plus  fa fa-plus';

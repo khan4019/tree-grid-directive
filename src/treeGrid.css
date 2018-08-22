@@ -110,3 +110,24 @@ table.tree-grid {
 	max-height : 500px;
 	overflow-y : scroll;
 }
+
+.tree-pagination {
+	color: rgba(0, 0, 0, 0.54);
+	display: flex;
+	justify-content: flex-end;
+	padding: 5px 15px 25px;
+}
+
+.tree-pagination span {
+    padding: 0 25px;
+}
+
+.tree-pagination i {
+    padding: 0 20px;
+	outline: none;
+}
+
+.tree-pagination i.disabled {
+	cursor: auto;
+	color: rgba(0, 0, 0, 0.34);
+}
