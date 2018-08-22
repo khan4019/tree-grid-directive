@@ -14,7 +14,7 @@
                     "     </tr>\n" +
                     "   </thead>\n" +
                     "   <tbody>\n" +
-                    "     <tr ng-repeat=\"row in tree_rows | searchFor:$parent.filterString:expandingProperty:colDefinitions | limitTo:itemsPerPage:paginationBegin track by row.branch.uid\"\n" +
+                    "     <tr ng-repeat=\"row in tree_rows | searchFor:$parent.filterString:expandingProperty:colDefinitions:page track by row.branch.uid\"\n" +
                     "       ng-class=\"'level-' + {{ row.level }} + (row.branch.selected ? ' active':'')\" class=\"tree-grid-row\">\n" +
                     "       <td><a ng-click=\"user_clicks_branch(row.branch)\"><i ng-class=\"row.tree_icon\"\n" +
                     "              ng-click=\"row.branch.expanded = !row.branch.expanded\"\n" +
@@ -106,7 +106,7 @@
                             return void 0;
                         };
 
-                        updatePagination = function () {
+                        updatePagination = function() {
                             scope.paginationBegin = scope.page * scope.itemsPerPage;
                             scope.paginationEnd = Math.min(scope.paginationBegin + scope.itemsPerPage, scope.treeData.length)
                             scope.disabledPrevious = scope.page === 0;
@@ -117,8 +117,12 @@
                             if (scope.itemsPerPage) {
                                 scope.page = 0;
                                 updatePagination();
+                            } else {
+                                scope.page = -1;
                             }
                         };
+
+                        scope.$watch('treeData', initPagination);
 
                         scope.previous = function () {
                             if (!scope.disabledPrevious) {
@@ -350,10 +354,9 @@
                         scope.tree_rows = [];
 
                         on_treeData_change = function () {
-                            initPagination();
                             getExpandingProperty();
 
-                            var add_branch_to_list, root_branch, _i, _len, _ref, _results;
+                            var add_branch_to_list, currentPage, root_branch, _i, _len, _ref, _results;
                             for_each_branch(function (b, level) {
                                 if (!b.uid) {
                                     return b.uid = "" + Math.random();
@@ -401,7 +404,7 @@
                                     return branch.children = [];
                                 }
                             });
-                            add_branch_to_list = function (level, branch, visible) {
+                            add_branch_to_list = function (level, branch, visible, page) {
                                 var child, child_visible, tree_icon, _i, _len, _ref, _results;
                                 if (branch.expanded == null) {
                                     branch.expanded = false;
@@ -421,7 +424,8 @@
                                     branch: branch,
                                     label: branch[expandingProperty],
                                     tree_icon: tree_icon,
-                                    visible: visible
+                                    visible: visible,
+                                    page: page,
                                 });
                                 if (branch.children != null) {
                                     _ref = branch.children;
@@ -429,16 +433,20 @@
                                     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
                                         child = _ref[_i];
                                         child_visible = visible && (branch.expanded || branch.level < expand_level);
-                                        _results.push(add_branch_to_list(level + 1, child, child_visible));
+                                        _results.push(add_branch_to_list(level + 1, child, child_visible, page));
                                     }
                                     return _results;
                                 }
                             };
                             _ref = scope.treeData;
                             _results = [];
+                            currentPage = -1;
                             for (_i = 0, _len = _ref.length; _i < _len; _i++) {
                                 root_branch = _ref[_i];
-                                _results.push(add_branch_to_list(1, root_branch, true));
+                                if (scope.itemsPerPage && _i % scope.itemsPerPage === 0) {
+                                    currentPage++;
+                                }
+                                _results.push(add_branch_to_list(1, root_branch, true, currentPage));
                             }
                             return _results;
                         };
@@ -734,13 +742,13 @@
         })
 
         .filter('searchFor', function () {
-            return function (arr, filterString, expandingProperty, colDefinitions, expand) {
+            return function (arr, filterString, expandingProperty, colDefinitions, page, expand) {
                 var filtered = [];
                 //only apply filter for strings 3 characters long or more
                 if (!filterString || filterString.length < 3) {
                     for (var i = 0; i < arr.length; i++) {
                         var item = arr[i];
-                        if (item.visible) {
+                        if (item.visible && item.page === page) {
                             filtered.push(item);
                         }
                     }
