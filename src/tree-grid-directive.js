@@ -5,7 +5,7 @@
             '$templateCache',
             function ($templateCache) {
                 $templateCache.put('template/treeGrid/treeGrid.html',
-                    "<div class=\"table-responsive\">\n" +
+                    "<div class=\"table-responsive\" ng-class='{ \"animation\": !noAnimation }'>\n" +
                     " <table class=\"table tree-grid\">\n" +
                     "   <thead>\n" +
                     "     <tr>\n" +
@@ -87,6 +87,7 @@
                         onSelect: '&',
                         onClick: '&',
                         initialSelection: '@',
+                        noAnimation: '=',
                         treeControl: '=',
                         expandTo: '='
                     },

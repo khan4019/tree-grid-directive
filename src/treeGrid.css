@@ -5,8 +5,8 @@
  * for both Bootstrap 2 and Bootstrap 3
  *
  */
-.tree-grid-animate-enter,
-.tree-grid-row.ng-enter {
+.animation .tree-grid-animate-enter,
+.animation .tree-grid-row.ng-enter {
     -moz-transition: 200ms linear all;
     -o-transition: 200ms linear all;
     -webkit-transition: 200ms linear all;
@@ -17,14 +17,14 @@
     max-height: 0;
 }
 
-.tree-grid-animate-enter.tree-grid-animate-enter-active,
-.tree-grid-row.ng-enter-active {
+.animation .tree-grid-animate-enter.tree-grid-animate-enter-active,
+.animation .tree-grid-row.ng-enter-active {
 	opacity    : 1;
 	max-height : 30px;
 }
 
-.tree-grid-animate-leave,
-.tree-grid-row.ng-leave {
+.animation .tree-grid-animate-leave,
+.animation .tree-grid-row.ng-leave {
     -moz-transition: 200ms linear all;
 	-o-transition: 200ms linear all;
 	-webkit-transition: 200ms linear all;
@@ -36,8 +36,8 @@
     opacity: 1;
 }
 
-.tree-grid-animate-leave.tree-grid-animate-leave-active,
-.tree-grid-row.ng-leave-active {
+.animation .tree-grid-animate-leave.tree-grid-animate-leave-active,
+.animation .tree-grid-row.ng-leave-active {
 	height     : 0;
 	max-height : 0;
 	opacity    : 0;
