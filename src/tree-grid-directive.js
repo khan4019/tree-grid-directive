@@ -98,7 +98,7 @@
                         expandTo: '='
                     },
                     link: function (scope, element, attrs) {
-                        var error, expandingProperty, expand_all_parents, expand_level, for_all_ancestors, for_each_branch, get_parent, n, on_treeData_change, select_branch, selected_branch, tree, updatePagination;
+                        var error, expandingProperty, expand_all_parents, expand_level, for_all_ancestors, for_each_branch, get_parent, initPagination, n, on_treeData_change, select_branch, selected_branch, tree, updatePagination;
 
                         error = function (s) {
                             console.log('ERROR:' + s);
@@ -113,10 +113,12 @@
                             scope.disabledNext = scope.paginationBegin + scope.itemsPerPage >= scope.treeData.length;
                         };
 
-                        if (scope.itemsPerPage) {
-                            scope.page = 0;
-                            updatePagination();
-                        }
+                        initPagination = function() {
+                            if (scope.itemsPerPage) {
+                                scope.page = 0;
+                                updatePagination();
+                            }
+                        };
 
                         scope.previous = function () {
                             if (!scope.disabledPrevious) {
@@ -348,6 +350,7 @@
                         scope.tree_rows = [];
 
                         on_treeData_change = function () {
+                            initPagination();
                             getExpandingProperty();
 
                             var add_branch_to_list, root_branch, _i, _len, _ref, _results;
