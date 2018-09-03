@@ -1,12 +1,12 @@
-/* 
+/*
  * treeGrid.css
  *
  * Styles for the tree-grid
  * for both Bootstrap 2 and Bootstrap 3
  *
  */
-.tree-grid-animate-enter,
-.tree-grid-row.ng-enter {
+.animation .tree-grid-animate-enter,
+.animation .tree-grid-row.ng-enter {
     -moz-transition: 200ms linear all;
     -o-transition: 200ms linear all;
     -webkit-transition: 200ms linear all;
@@ -17,14 +17,14 @@
     max-height: 0;
 }
 
-.tree-grid-animate-enter.tree-grid-animate-enter-active,
-.tree-grid-row.ng-enter-active {
+.animation .tree-grid-animate-enter.tree-grid-animate-enter-active,
+.animation .tree-grid-row.ng-enter-active {
 	opacity    : 1;
 	max-height : 30px;
 }
 
-.tree-grid-animate-leave,
-.tree-grid-row.ng-leave {
+.animation .tree-grid-animate-leave,
+.animation .tree-grid-row.ng-leave {
     -moz-transition: 200ms linear all;
 	-o-transition: 200ms linear all;
 	-webkit-transition: 200ms linear all;
@@ -36,8 +36,8 @@
     opacity: 1;
 }
 
-.tree-grid-animate-leave.tree-grid-animate-leave-active,
-.tree-grid-row.ng-leave-active {
+.animation .tree-grid-animate-leave.tree-grid-animate-leave-active,
+.animation .tree-grid-row.ng-leave-active {
 	height     : 0;
 	max-height : 0;
 	opacity    : 0;
@@ -109,4 +109,55 @@
 table.tree-grid {
 	max-height : 500px;
 	overflow-y : scroll;
+}
+
+.tree-pagination {
+	color: rgba(0, 0, 0, 0.54);
+	display: flex;
+	justify-content: flex-end;
+	padding: 5px 15px 25px;
+}
+
+.tree-pagination span {
+    padding: 0 25px;
+}
+
+.tree-pagination i {
+    padding: 0 20px;
+	outline: none;
+}
+
+.tree-pagination i.disabled {
+	cursor: auto;
+	color: rgba(0, 0, 0, 0.34);
+}
+
+/* Custom CSS for sorting */
+
+.th-sort {
+	display: flex;
+	justify-content: space-between;
+}
+
+th span, th a {
+	float: left;
+}
+
+.sort {
+	display: flex;
+	flex-direction: column;
+	float: left;
+	outline: none;
+}
+
+.sort i {
+	font-size: 7px;
+}
+
+.tree-grid i.glyphicon-gray {
+	color: #E7E7E7;
+}
+
+.tree-grid i:nth-child(2) {
+	line-height: 0.8;
 }

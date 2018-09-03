@@ -5,16 +5,24 @@
             '$templateCache',
             function ($templateCache) {
                 $templateCache.put('template/treeGrid/treeGrid.html',
-                    "<div class=\"table-responsive\">\n" +
+                    "<div class=\"table-responsive\" ng-class='{ \"animation\": !noAnimation }'>\n" +
                     " <table class=\"table tree-grid\">\n" +
                     "   <thead>\n" +
                     "     <tr>\n" +
-                    "       <th><a ng-if=\"expandingProperty.sortable\" ng-click=\"sortBy(expandingProperty)\">{{expandingProperty.displayName || expandingProperty.field || expandingProperty}}</a><span ng-if=\"!expandingProperty.sortable\">{{expandingProperty.displayName || expandingProperty.field || expandingProperty}}</span><i ng-if=\"expandingProperty.sorted\" class=\"{{expandingProperty.sortingIcon}} pull-right\"></i></th>\n" +
-                    "       <th ng-repeat=\"col in colDefinitions\"><a ng-if=\"col.sortable\" ng-click=\"sortBy(col)\">{{col.displayName || col.field}}</a><span ng-if=\"!col.sortable\">{{col.displayName || col.field}}</span><i ng-if=\"col.sorted\" class=\"{{col.sortingIcon}} pull-right\"></i></th>\n" +
+                    "       <th><div class=\"th-sort\"><a ng-if=\"expandingProperty.sortable\" ng-click=\"sortBy(expandingProperty)\">{{expandingProperty.displayName || expandingProperty.field || expandingProperty}}</a><span ng-if=\"!expandingProperty.sortable\">{{expandingProperty.displayName || expandingProperty.field || expandingProperty}}</span>" +
+                    "         <div ng-if=\"expandingProperty.sortable && !expandingProperty.sorted\"                  class=\"sort\" ng-click=\"sortBy(expandingProperty)\"><i class=\"glyphicon glyphicon-triangle-top glyphicon-gray\"></i><i class=\"glyphicon glyphicon-triangle-bottom glyphicon-gray\"></i></div>" +
+                    "         <div ng-if=\"expandingProperty.sortable && expandingProperty.sortDirection === 'desc'\" class=\"sort\" ng-click=\"sortBy(expandingProperty)\"><i class=\"glyphicon glyphicon-triangle-top\"></i><i class=\"glyphicon glyphicon-triangle-bottom glyphicon-gray\"></i></div>" +
+                    "         <div ng-if=\"expandingProperty.sortable && expandingProperty.sortDirection === 'asc'\"  class=\"sort\" ng-click=\"sortBy(expandingProperty)\"><i class=\"glyphicon glyphicon-triangle-top glyphicon-gray\"></i><i class=\"glyphicon glyphicon-triangle-bottom\"></i></div>" +
+                    "       </div></th>\n" +
+                    "       <th ng-repeat=\"col in colDefinitions\"><div class=\"th-sort\"><a ng-if=\"col.sortable\" ng-click=\"sortBy(col)\">{{col.displayName || col.field}}</a><span ng-if=\"!col.sortable\">{{col.displayName || col.field}}</span>" +
+                    "         <div ng-if=\"col.sortable && !col.sorted\"                  class=\"sort\" ng-click=\"sortBy(col)\"><i class=\"glyphicon glyphicon-triangle-top glyphicon-gray\"></i><i class=\"glyphicon glyphicon-triangle-bottom glyphicon-gray\"></i></div>" +
+                    "         <div ng-if=\"col.sortable && col.sortDirection === 'desc'\" class=\"sort\" ng-click=\"sortBy(col)\"><i class=\"glyphicon glyphicon-triangle-top\"></i><i class=\"glyphicon glyphicon-triangle-bottom glyphicon-gray\"></i></div>" +
+                    "         <div ng-if=\"col.sortable && col.sortDirection === 'asc'\"  class=\"sort\" ng-click=\"sortBy(col)\"><i class=\"glyphicon glyphicon-triangle-top glyphicon-gray\"></i><i class=\"glyphicon glyphicon-triangle-bottom\"></i></div>" +
+                    "       </div></th>\n" +
                     "     </tr>\n" +
                     "   </thead>\n" +
                     "   <tbody>\n" +
-                    "     <tr ng-repeat=\"row in tree_rows | searchFor:$parent.filterString:expandingProperty:colDefinitions track by row.branch.uid\"\n" +
+                    "     <tr ng-repeat=\"row in tree_rows | searchFor:$parent.filterString:expandingProperty:colDefinitions:page track by row.branch.uid\"\n" +
                     "       ng-class=\"'level-' + {{ row.level }} + (row.branch.selected ? ' active':'')\" class=\"tree-grid-row\">\n" +
                     "       <td><a ng-click=\"user_clicks_branch(row.branch)\"><i ng-class=\"row.tree_icon\"\n" +
                     "              ng-click=\"row.branch.expanded = !row.branch.expanded\"\n" +
@@ -30,6 +38,11 @@
                     "     </tr>\n" +
                     "   </tbody>\n" +
                     " </table>\n" +
+                    " <div class=\"tree-pagination\" ng-if=\"itemsPerPage\">\n" +
+                    "   <span>{{ paginationBegin + 1 }}-{{ paginationEnd }} of {{ treeData.length }}</span>\n" +
+                    "   <i class=\"glyphicon glyphicon-chevron-left fa fa-chevron-left\" ng-click=\"previous()\" ng-class=\"{ disabled: disabledPrevious }\"></i>\n" +
+                    "   <i class=\"glyphicon glyphicon-chevron-right fa fa-chevron-right\" ng-click=\"next()\" ng-class=\"{ disabled: disabledNext }\"></i>\n" +
+                    " </div>\n" +
                     "</div>\n" +
                     "");
             }]);
@@ -87,11 +100,13 @@
                         onSelect: '&',
                         onClick: '&',
                         initialSelection: '@',
+                        noAnimation: '=',
                         treeControl: '=',
+                        itemsPerPage: '=',
                         expandTo: '='
                     },
                     link: function (scope, element, attrs) {
-                        var error, expandingProperty, expand_all_parents, expand_level, for_all_ancestors, for_each_branch, get_parent, n, on_treeData_change, select_branch, selected_branch, tree;
+                        var error, expandingProperty, expand_all_parents, expand_level, for_all_ancestors, for_each_branch, get_parent, initPagination, n, on_treeData_change, select_branch, selected_branch, tree, updatePagination;
 
                         error = function (s) {
                             console.log('ERROR:' + s);
@@ -99,11 +114,41 @@
                             return void 0;
                         };
 
+                        updatePagination = function() {
+                            scope.paginationBegin = scope.page * scope.itemsPerPage;
+                            scope.paginationEnd = Math.min(scope.paginationBegin + scope.itemsPerPage, scope.treeData.length)
+                            scope.disabledPrevious = scope.page === 0;
+                            scope.disabledNext = scope.paginationBegin + scope.itemsPerPage >= scope.treeData.length;
+                        };
+
+                        initPagination = function() {
+                            if (scope.itemsPerPage) {
+                                scope.page = 0;
+                                updatePagination();
+                            } else {
+                                scope.page = -1;
+                            }
+                        };
+
+                        scope.$watch('treeData', initPagination);
+
+                        scope.previous = function () {
+                            if (!scope.disabledPrevious) {
+                                scope.page--;
+                                updatePagination();
+                            }
+                        };
+
+                        scope.next = function () {
+                            if (!scope.disabledNext) {
+                                scope.page++;
+                                updatePagination();
+                            }
+                        };
+
                         attrs.iconExpand = attrs.iconExpand ? attrs.iconExpand : 'icon-plus  glyphicon glyphicon-plus  fa fa-plus';
                         attrs.iconCollapse = attrs.iconCollapse ? attrs.iconCollapse : 'icon-minus glyphicon glyphicon-minus fa fa-minus';
                         attrs.iconLeaf = attrs.iconLeaf ? attrs.iconLeaf : 'icon-file  glyphicon glyphicon-file  fa fa-file';
-                        attrs.sortedAsc = attrs.sortedAsc ? attrs.sortedAsc : 'icon-file  glyphicon glyphicon-chevron-up  fa angle-up';
-                        attrs.sortedDesc = attrs.sortedDesc ? attrs.sortedDesc : 'icon-file  glyphicon glyphicon-chevron-down  fa angle-down';
                         attrs.expandLevel = attrs.expandLevel ? attrs.expandLevel : '0';
                         expand_level = parseInt(attrs.expandLevel, 10);
 
@@ -224,11 +269,9 @@
                             if (col.sortDirection === "asc") {
                                 sort_recursive(scope.treeData, col, true);
                                 col.sortDirection = "desc";
-                                col.sortingIcon = attrs.sortedDesc;
                             } else {
                                 sort_recursive(scope.treeData, col, false);
                                 col.sortDirection = "asc";
-                                col.sortingIcon = attrs.sortedAsc;
                             }
                             col.sorted = true;
                             resetSorting(col);
@@ -317,7 +360,7 @@
                         on_treeData_change = function () {
                             getExpandingProperty();
 
-                            var add_branch_to_list, root_branch, _i, _len, _ref, _results;
+                            var add_branch_to_list, currentPage, root_branch, _i, _len, _ref, _results;
                             for_each_branch(function (b, level) {
                                 if (!b.uid) {
                                     return b.uid = "" + Math.random();
@@ -365,7 +408,7 @@
                                     return branch.children = [];
                                 }
                             });
-                            add_branch_to_list = function (level, branch, visible) {
+                            add_branch_to_list = function (level, branch, visible, page) {
                                 var child, child_visible, tree_icon, _i, _len, _ref, _results;
                                 if (branch.expanded == null) {
                                     branch.expanded = false;
@@ -385,7 +428,8 @@
                                     branch: branch,
                                     label: branch[expandingProperty],
                                     tree_icon: tree_icon,
-                                    visible: visible
+                                    visible: visible,
+                                    page: page,
                                 });
                                 if (branch.children != null) {
                                     _ref = branch.children;
@@ -393,16 +437,20 @@
                                     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
                                         child = _ref[_i];
                                         child_visible = visible && (branch.expanded || branch.level < expand_level);
-                                        _results.push(add_branch_to_list(level + 1, child, child_visible));
+                                        _results.push(add_branch_to_list(level + 1, child, child_visible, page));
                                     }
                                     return _results;
                                 }
                             };
                             _ref = scope.treeData;
                             _results = [];
+                            currentPage = -1;
                             for (_i = 0, _len = _ref.length; _i < _len; _i++) {
                                 root_branch = _ref[_i];
-                                _results.push(add_branch_to_list(1, root_branch, true));
+                                if (scope.itemsPerPage && _i % scope.itemsPerPage === 0) {
+                                    currentPage++;
+                                }
+                                _results.push(add_branch_to_list(1, root_branch, true, currentPage));
                             }
                             return _results;
                         };
@@ -698,13 +746,13 @@
         })
 
         .filter('searchFor', function () {
-            return function (arr, filterString, expandingProperty, colDefinitions, expand) {
+            return function (arr, filterString, expandingProperty, colDefinitions, page, expand) {
                 var filtered = [];
                 //only apply filter for strings 3 characters long or more
                 if (!filterString || filterString.length < 3) {
                     for (var i = 0; i < arr.length; i++) {
                         var item = arr[i];
-                        if (item.visible) {
+                        if (item.visible && item.page === page) {
                             filtered.push(item);
                         }
                     }
