@@ -1,4 +1,4 @@
-/* 
+/*
  * treeGrid.css
  *
  * Styles for the tree-grid
@@ -130,4 +130,34 @@ table.tree-grid {
 .tree-pagination i.disabled {
 	cursor: auto;
 	color: rgba(0, 0, 0, 0.34);
+}
+
+/* Custom CSS for sorting */
+
+.th-sort {
+	display: flex;
+	justify-content: space-between;
+}
+
+th span, th a {
+	float: left;
+}
+
+.sort {
+	display: flex;
+	flex-direction: column;
+	float: left;
+	outline: none;
+}
+
+.sort i {
+	font-size: 7px;
+}
+
+.tree-grid i.glyphicon-gray {
+	color: #E7E7E7;
+}
+
+.tree-grid i:nth-child(2) {
+	line-height: 0.8;
 }
