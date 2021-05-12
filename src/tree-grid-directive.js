@@ -446,6 +446,11 @@
                                         return b.expanded = true;
                                     });
                                 };
+                                tree.expand_until_level = function (target_level) {
+                                    return for_each_branch(function (b, level) {
+                                        return b.expanded = target_level < level;
+                                    });
+                                };
                                 tree.collapse_all = function () {
                                     return for_each_branch(function (b, level) {
                                         return b.expanded = false;
