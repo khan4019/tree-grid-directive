@@ -448,7 +448,7 @@
                                 };
                                 tree.expand_until_level = function (target_level) {
                                     return for_each_branch(function (b, level) {
-                                        return b.expanded = target_level < level;
+                                        return b.expanded = level < target_level;
                                     });
                                 };
                                 tree.collapse_all = function () {
